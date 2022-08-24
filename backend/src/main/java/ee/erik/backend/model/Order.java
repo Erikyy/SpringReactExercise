@@ -1,4 +1,4 @@
-package ee.erik.backend.models;
+package ee.erik.backend.model;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -25,4 +25,9 @@ public class Order {
 
     @ManyToOne
     private Package orderPackage;
+
+    public Order(OrderStatus status, Package orderPackage) {
+        this.status = status;
+        this.orderPackage = orderPackage;
+    }
 }

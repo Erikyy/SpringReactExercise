@@ -1,4 +1,4 @@
-package ee.erik.backend.models;
+package ee.erik.backend.model;
 
 public enum PackageCategory {
     OTHER,

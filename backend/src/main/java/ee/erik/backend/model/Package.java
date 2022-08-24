@@ -1,4 +1,4 @@
-package ee.erik.backend.models;
+package ee.erik.backend.model;
 
 import java.util.Set;
 
@@ -25,15 +25,23 @@ public class Package {
     @GeneratedValue
     private Long id;
 
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private PackageType packageType;
 
     private String description;
 
     private double price;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private PackageCategory category;
 
-    @OneToMany(mappedBy = "package", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "orderPackage", cascade = CascadeType.PERSIST)
     private Set<Order> orders;
+
+    public Package(PackageType packageType, String description, double price, PackageCategory category) {
+        this.packageType = packageType;
+        this.description = description;
+        this.price = price;
+        this.category = category;
+    }
 }
