@@ -1,36 +1,43 @@
 package ee.erik.backend.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
 @Getter
 @Setter
 @Entity
-@Table(name = "orders")
+@Table(name = "package_description")
 @NoArgsConstructor
-public class Order {
+public class PackageDescription {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "package_description_id")
     private Long id;
 
-    @Enumerated(EnumType.ORDINAL)
-    private OrderStatus status;
+    private String locale;
 
-    @ManyToOne
+    private String content;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
     private PackageEntity packageEntity;
 
-    public Order(OrderStatus status, PackageEntity packageEntity) {
-        this.status = status;
-        this.packageEntity = packageEntity;
+    public PackageDescription(String locale, String content) {
+        this.locale = locale;
+        this.content = content;
     }
 }
