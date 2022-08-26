@@ -3,46 +3,65 @@ package ee.erik.backend.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import ee.erik.backend.dto.CreateOrderDto;
+import ee.erik.backend.model.ErrorResponse;
 import ee.erik.backend.model.Order;
-import ee.erik.backend.model.OrderStatus;
-import ee.erik.backend.model.PackageEntity;
-import ee.erik.backend.repository.OrderRepository;
-import ee.erik.backend.repository.PackageRepository;
+import ee.erik.backend.service.OrderService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 @RestController
 @RequestMapping("/orders")
+@Tag(name = "Order", description = "Orders Api")
 public class OrderController {
     
     @Autowired
-    private OrderRepository orderRepository;
-
-    @Autowired
-    private PackageRepository packageRepository;
+    private OrderService orderService;
     
-    @GetMapping
-    public List<Order> getOrders() {
-        return orderRepository.findAll();
+    @Operation(summary = "List all orders", description = "Returns all orders with the package.", tags = {"Order"})
+    @ApiResponse(responseCode = "200", description = "Success", content = @Content(array = @ArraySchema(schema = @Schema(implementation = Order.class))))
+    @GetMapping(produces = {"application/json"})
+    public List<Order> getOrders(@RequestHeader(name = "Accept-Currency", required = false) String currency) {
+        return orderService.getOrders(currency);
     }
 
-    @GetMapping("/{id}")
-    public Order getOrder(@PathVariable Long id) {
-        return orderRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found: " + id));
+    @Operation(summary = "Get order by order id", description = "Returns an order by id.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Success", content = @Content(schema = @Schema(implementation = Order.class))),
+        @ApiResponse(responseCode = "404", description = "Not found. Returs error with status.", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+    })
+    @GetMapping(value = "/{id}", produces = {"application/json"})
+    public Order getOrder(
+        @PathVariable Long id, 
+        @RequestHeader(name = "Accept-Currency", required = false) String currency
+    ) {
+        return orderService.getOrder(id, currency);
     }
     
-    @PostMapping(consumes = { "application/json", "application/xml", "application/x-www-form-urlencoded" })
-    public Order addNewOrder(@RequestBody CreateOrderDto orderDto) {
-        PackageEntity orderPackage = packageRepository.findById(orderDto.getPackageId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Package not found: " + orderDto.getPackageId()));
-
-        return orderRepository.save(new Order(OrderStatus.NEW, orderPackage));
+    @Operation(summary = "Add new order", description = "Adds a new order based on what package id was added to database and returns the added order.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Success", content = @Content(schema = @Schema(implementation = Order.class))),
+        @ApiResponse(responseCode = "404", description = "Package Not found. Returs error with status.", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+    })
+    @PostMapping(consumes = { "application/json", "application/xml", "application/x-www-form-urlencoded" }, produces = {"application/json"})
+    public Order addNewOrder(
+        @RequestBody CreateOrderDto orderDto, 
+        @RequestHeader(name = "Accept-Currency", required = false) String currency
+    ) {
+        return orderService.addNewOrder(orderDto, currency);
     }
 }

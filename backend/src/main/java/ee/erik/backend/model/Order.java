@@ -9,12 +9,14 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 @Entity
 @Table(name = "orders")
 @NoArgsConstructor
@@ -27,6 +29,7 @@ public class Order {
     private OrderStatus status;
 
     @ManyToOne
+    @EqualsAndHashCode.Exclude
     private PackageEntity packageEntity;
 
     public Order(OrderStatus status, PackageEntity packageEntity) {

@@ -21,6 +21,9 @@ public class OrderTasks {
     @Autowired
     private OrderRepository orderRepository;
 
+    /**
+     * Sets random status for new orders every 2 minutes
+     */
     @Scheduled(cron = "0 0/2 * * * *")
     public void setRandomStatusTask() {
         log.info("Changing New Orders statuses");

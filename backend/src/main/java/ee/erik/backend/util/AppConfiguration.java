@@ -6,6 +6,8 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springdoc.core.GroupedOpenApi;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -34,5 +36,13 @@ public class AppConfiguration extends AcceptHeaderLocaleResolver implements WebM
         return headerLang == null || headerLang.isEmpty()
             ? Locale.getDefault()
             : Locale.lookup(Locale.LanguageRange.parse(headerLang), LOCALES);
+    }
+
+    @Bean
+    public GroupedOpenApi packageApi() {
+        return GroupedOpenApi.builder()
+            .group("Tv Packages")
+            .packagesToScan("ee.erik.backend")
+            .build();
     }
 }

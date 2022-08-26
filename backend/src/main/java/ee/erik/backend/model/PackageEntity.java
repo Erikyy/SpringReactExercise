@@ -16,12 +16,15 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 @Entity
 @NoArgsConstructor
 @Table(name = "package")
@@ -38,8 +41,10 @@ public class PackageEntity {
     @OneToMany(mappedBy = "packageEntity", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<PackageDescription> descriptions;
 
+    @Schema(description = "Package price, monthly subscription, default currency is in euros", example = "9.99")
     private double price;
 
+    @Schema(description = "Package category")
     @Enumerated(EnumType.STRING)
     private PackageCategory category;
 
