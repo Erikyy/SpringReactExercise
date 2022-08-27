@@ -12,6 +12,8 @@ import java.util.Map;
  */
 public class CurrencyConverter {
 
+    public static String DEFAULT = "eur";
+
     static Map<String, Double> rates = Map.ofEntries(
         Map.entry("eur", 1.00),
         Map.entry("usd", 1.00),
@@ -26,7 +28,8 @@ public class CurrencyConverter {
      * @return converted value
      */
     public static double convertTo(double value, String currency) {
-        double rate = rates.get(currency == null || currency == "" ? "eur" : currency);
+       
+        double rate = rates.get(currency == null || currency == "" || rates.get(currency) == null ? DEFAULT : currency);
         return value * rate;
     }
 }
