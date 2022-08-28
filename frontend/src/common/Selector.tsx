@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import type { FC } from 'react';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 interface SelectorProps {
   id: string;
@@ -21,7 +22,7 @@ const Selector: FC<SelectorProps> = ({
 }) => {
   const [open, setOpen] = useState(false);
   const [values, setValues] = useState<string[]>([]);
-
+  const { t } = useTranslation();
   useEffect(() => {
     setValues(data);
   }, [data]);
@@ -30,7 +31,7 @@ const Selector: FC<SelectorProps> = ({
   }
   return (
     <FormControl sx={{ minWidth: 80 }} size='small' variant='outlined'>
-      <InputLabel id={`${id}-label`}>{label}</InputLabel>
+      <InputLabel id={`${id}-label`}>{t(label)}</InputLabel>
       <Select
         open={open}
         onClose={() => setOpen(false)}
@@ -42,7 +43,7 @@ const Selector: FC<SelectorProps> = ({
         id={`${id}`}
         value={value}
         defaultValue={defaultValue}
-        label={label}
+        label={t(label)}
       >
         {values.map((item, i) => {
           return (

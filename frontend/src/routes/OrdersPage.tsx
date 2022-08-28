@@ -15,7 +15,12 @@ import OrderService from '@app/service/OrderService';
 import { useAppSelector } from '@app/store/RootStore';
 import getSymbolFromCurrency from 'currency-symbol-map';
 import { useTranslation } from 'react-i18next';
-import { T_PACKAGE_CATEGORY, T_PACKAGE_PRICE, T_STATUS } from '@app/constants';
+import {
+  T_PACKAGE_CATEGORY,
+  T_PACKAGE_PRICE,
+  T_PACKAGE_TYPE,
+  T_STATUS,
+} from '@app/constants';
 import Loading from '@app/common/Loading';
 import type { Description } from '@app/types/Description';
 
@@ -42,10 +47,9 @@ const OrdersPage: FC = () => {
     { field: 'status', headerName: t(T_STATUS), width: 150 },
     {
       field: 'packageEntity',
-      headerName: 'Package Type',
+      headerName: t(T_PACKAGE_TYPE),
       width: 150,
       valueGetter(params) {
-        console.log(params);
         return params.value.packageType;
       },
     },
@@ -55,7 +59,6 @@ const OrdersPage: FC = () => {
       width: 150,
       valueGetter({ id }) {
         const item = data.find((item: Order) => item.id === id);
-        console.log(item);
         return `${item.packageEntity.price} ${getSymbolFromCurrency(
           currencies.activeCurrency,
         )}`;
@@ -69,10 +72,8 @@ const OrdersPage: FC = () => {
         const item = data.find((item: Order) => item.id === id);
         //this is the other way to get correct translations
         let content = item.packageEntity.category.descriptions.filter(
-          (desc: Description) => desc.locale === languages.activeLang,
+          (desc: Description) => desc.language === languages.activeLang,
         );
-        console.log(item);
-
         return content[0].content;
       },
     },

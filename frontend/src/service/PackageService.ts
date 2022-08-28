@@ -2,7 +2,7 @@ import { API_URL } from '@app/types/Api';
 
 export default class PackageService {
   public static getPackages(
-    category: number,
+    category: string,
     language: string,
     currency: string,
   ) {

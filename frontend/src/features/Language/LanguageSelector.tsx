@@ -5,9 +5,10 @@ import Selector from '@app/common/Selector';
 import { useAppDispatch, useAppSelector } from '@app/store/RootStore';
 import { setActiveLanguage } from './LanguageSlice';
 import { useTranslation } from 'react-i18next';
+import { T_LANGUAGE } from '@app/constants';
 
 const LanguageSelector: FC = () => {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const dispatch = useAppDispatch();
   const { activeLang, languages, loading } = useAppSelector(
     (state) => state.languages,
@@ -21,7 +22,7 @@ const LanguageSelector: FC = () => {
       id='language-selector'
       data={languages}
       defaultValue='en'
-      label='Language'
+      label={T_LANGUAGE}
       value={activeLang}
       onChange={(val) => {
         dispatch(setActiveLanguage(val));

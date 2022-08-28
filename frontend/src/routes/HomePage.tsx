@@ -20,16 +20,20 @@ import OrderService from '@app/service/OrderService';
 import { useTranslation } from 'react-i18next';
 import { T_NEW_ORDER_ADDED } from '@app/constants';
 import Loading from '@app/common/Loading';
+import { useLocation } from 'react-router-dom';
 
 const PackagesPage: FC = () => {
   const { languages, currencies } = useAppSelector((state) => state);
+
   const [notificationOpen, setNotificationOpen] = useState(false);
   const { t } = useTranslation();
+  const location = useLocation();
+
   const { isLoading, data, error, refetch } = useQuery<Package[]>(
     ['packages'],
     () => {
       return PackageService.getPackages(
-        1,
+        location.pathname.replace('/', ''),
         languages.activeLang,
         currencies.activeCurrency,
       );

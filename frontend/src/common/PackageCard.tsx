@@ -13,9 +13,7 @@ import type { Package } from '@app/types/Package';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from '@app/store/RootStore';
 import { T_MAKE_ORDER } from '@app/constants';
-import { useNavigate } from 'react-router-dom';
 import getSymbolFromCurrency from 'currency-symbol-map';
-import OrderService from '@app/service/OrderService';
 
 interface PackageCardProps {
   data: Package;
@@ -26,7 +24,7 @@ const PackageCard: FC<PackageCardProps> = ({ data, onOrderMade }) => {
   const activeCurrency = useAppSelector(
     (state) => state.currencies.activeCurrency,
   );
-  const navigate = useNavigate();
+
   const { t } = useTranslation();
   return (
     <Card

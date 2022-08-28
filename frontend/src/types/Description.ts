@@ -1,5 +1,5 @@
 export type Description = {
   id: number;
-  locale: string;
+  language: string;
   content: string;
 };

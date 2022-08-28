@@ -5,14 +5,12 @@ import { useQuery } from '@tanstack/react-query';
 import type { PackageCategory } from '@app/types/PackageCategory';
 import PackageCategoryService from '@app/service/PackageCategoryService';
 import { useAppSelector } from '@app/store/RootStore';
-
-interface CategoryProps {
-  onClick: (val: number) => void;
-}
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Categories: FC = () => {
-  const { languages, categories } = useAppSelector((state) => state);
-
+  const { languages } = useAppSelector((state) => state);
+  const location = useLocation();
+  const navigate = useNavigate();
   const { isLoading, data, error, refetch } = useQuery<PackageCategory[]>(
     ['categories'],
     () => {
@@ -30,6 +28,14 @@ const Categories: FC = () => {
     return null;
   }
 
+  if (error) {
+    return null;
+  }
+
+  if (location.pathname == '/') {
+    //navigate to first category
+    navigate(`${data[0].name}`);
+  }
   return (
     <React.Fragment>
       {data.map((item, i) => {

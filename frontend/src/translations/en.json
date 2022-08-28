@@ -3,11 +3,10 @@
   "orders": "Orders",
   "tv-packages": "TV Packages",
   "currency": "Currency",
-  "language": "language",
+  "language": "Language",
   "new-order-added": "New order added",
   "status": "Status",
   "package-type": "Package Type",
   "package-price": "Package Price",
-  "package-category": "Package Category",
-  "home": "Home"
+  "package-category": "Package Category"
 }
