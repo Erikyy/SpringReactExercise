@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import ee.erik.backend.repository.PackageCategoryRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ee.erik.backend.model.PackageCategory;
-import ee.erik.backend.model.PackageDescription;
+import ee.erik.backend.model.Description;
 import ee.erik.backend.model.PackageEntity;
 import ee.erik.backend.model.PackageType;
 import ee.erik.backend.repository.PackageDescriptionRepository;
@@ -31,22 +32,31 @@ public class PackageRepositoryTest {
     @Autowired
     private PackageRepository packageRepository;
 
+    //Only used for initializing test category, this repository is not tested here
+    @Autowired
+    private PackageCategoryRepository packageCategoryRepository;
+
     //needed for saving package descriptions
     @Autowired
     private PackageDescriptionRepository packageDescriptionRepository;
 
     private PackageEntity testPackageEntity;
-
+    private PackageCategory testPackageCategory;
     @BeforeEach
     public void setup() {
-        
+
+        testPackageCategory = initCategory(new ArrayList<Description>(Arrays.asList(
+                new Description("en", "Premium Package"),
+                new Description("et", "Preemium Pakett")
+        )
+        ));
         testPackageEntity = initPackageAndDescription(
             PackageType.PREMIUM, 
             24.99, 
-            PackageCategory.TV, 
-            new ArrayList<PackageDescription>(Arrays.asList(
-                new PackageDescription("en", "Premium Package"),
-                new PackageDescription("et", "Preemium Pakett")
+            testPackageCategory,
+            new ArrayList<Description>(Arrays.asList(
+                new Description("en", "Premium Package"),
+                new Description("et", "Preemium Pakett")
                 )
             ));
 
@@ -59,10 +69,21 @@ public class PackageRepositoryTest {
         packageRepository.deleteAll();
     }
 
-    private PackageEntity initPackageAndDescription(PackageType packageType, double price, PackageCategory category, List<PackageDescription> descriptions) {
+    private PackageCategory initCategory(List<Description> descriptions) {
+        PackageCategory packageCategory = packageCategoryRepository.save(new PackageCategory());
+
+        for (Description desc : descriptions) {
+            desc.setPackageCategory(packageCategory);
+        }
+        packageDescriptionRepository.saveAll(descriptions);
+
+        return packageCategory;
+    }
+
+    private PackageEntity initPackageAndDescription(PackageType packageType, double price, PackageCategory category, List<Description> descriptions) {
         PackageEntity savedPackage = packageRepository.save(new PackageEntity(packageType, price, category));
 
-        for (PackageDescription desc : descriptions) {
+        for (Description desc : descriptions) {
             desc.setPackageEntity(savedPackage);
             
         }
@@ -73,7 +94,7 @@ public class PackageRepositoryTest {
 
     @Test
     public void repositoryShouldReturnPackagesByCategoryAndLocale() {
-        List<PackageEntity> packageEntities = packageRepository.findPackagesByCategoryAndDescriptionLocale(PackageCategory.TV, "en");
+        List<PackageEntity> packageEntities = packageRepository.findPackagesByCategoryAndDescriptionLocale(testPackageCategory.getId(), "en");
 
         assertThat(packageEntities).isNotEmpty();
     }
@@ -97,12 +118,12 @@ public class PackageRepositoryTest {
     @Test
     public void repositoryShouldReturnNoPackagesWhenCategoryOrLocaleNotExists() {
 
-        List<PackageEntity> packageEntities = packageRepository.findPackagesByCategoryAndDescriptionLocale(PackageCategory.OTHER, "en");
+        List<PackageEntity> packageEntities = packageRepository.findPackagesByCategoryAndDescriptionLocale(5L, "en");
 
         assertThat(packageEntities).isEmpty();
 
         //set to language that packagedescriptions does not have
-        List<PackageEntity> emptyPackageEntities = packageRepository.findPackagesByCategoryAndDescriptionLocale(PackageCategory.TV, "es");
+        List<PackageEntity> emptyPackageEntities = packageRepository.findPackagesByCategoryAndDescriptionLocale(testPackageCategory.getId(), "es");
 
         assertThat(emptyPackageEntities).isEmpty();
     }

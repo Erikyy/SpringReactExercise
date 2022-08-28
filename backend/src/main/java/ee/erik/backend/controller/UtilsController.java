@@ -2,6 +2,7 @@ package ee.erik.backend.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,18 +25,16 @@ public class UtilsController {
 
     @Operation(summary = "List supported currencies", description = "Returns all supported currencies", tags = {"Utils"})
     @ApiResponse(responseCode = "200", description = "Success", content = @Content(array = @ArraySchema(schema = @Schema(implementation = List.class))))
-    @GetMapping("/currencies")
+    @GetMapping(path = "/currencies", produces = {"application/json"})
     public List<String> getSupportedCurrencies() {
         return new ArrayList<>(CurrencyConverter.rates.keySet());
     }
 
     @Operation(summary = "List supported languages", description = "Returns all supported languages", tags = {"Utils"})
     @ApiResponse(responseCode = "200", description = "Success", content = @Content(array = @ArraySchema(schema = @Schema(implementation = List.class))))
-    @GetMapping("/languages")
+    @GetMapping(path = "/languages", produces = {"application/json"})
     public List<String> getSupportedLanguages() {
-        return AppConfiguration.LOCALES.stream().map(lang -> {
-            return lang.getLanguage();
-        }).toList();
+        return AppConfiguration.LOCALES.stream().map(Locale::getLanguage).toList();
     }
     
 }

@@ -2,17 +2,7 @@ package ee.erik.backend.model;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -39,13 +29,13 @@ public class PackageEntity {
     private PackageType packageType;
 
     @OneToMany(mappedBy = "packageEntity", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-    private List<PackageDescription> descriptions;
+    private List<Description> descriptions;
 
     @Schema(description = "Package price, monthly subscription, default currency is in euros", example = "9.99")
     private double price;
 
     @Schema(description = "Package category")
-    @Enumerated(EnumType.STRING)
+    @ManyToOne
     private PackageCategory category;
 
     @JsonIgnore
@@ -56,8 +46,7 @@ public class PackageEntity {
      * Construtor for creating new package
      * 
      * @param packageType
-     * @param description
-     * @param price Price should be set in euros
+     * @param price Price should always be set in euros
      * @param category
      */
     public PackageEntity(PackageType packageType, double price, PackageCategory category) {

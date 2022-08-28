@@ -18,31 +18,38 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
+/**
+ * More generic description model, made for using translations in model
+ */
 @Getter
 @Setter
 @EqualsAndHashCode
 @Entity
-@Table(name = "package_description")
+@Table(name = "descriptions")
 @NoArgsConstructor
-public class PackageDescription {
+public class Description {
     
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "package_description_id")
+    @Column(name = "description_id")
     private Long id;
 
-    @Schema(description = "Contry code")
+    @Schema(description = "Country code")
     private String locale;
 
     @Schema(description = "Description content")
     private String content;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private PackageEntity packageEntity;
 
-    public PackageDescription(String locale, String content) {
+    @JsonIgnore
+    @ManyToOne
+    private PackageCategory packageCategory;
+
+    public Description(String locale, String content) {
         this.locale = locale;
         this.content = content;
     }

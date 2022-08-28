@@ -35,7 +35,7 @@ public class PackageController {
     @ApiResponse(responseCode = "200", description = "Success", content = @Content(array = @ArraySchema(schema = @Schema(implementation = PackageEntity.class))))
     @GetMapping(produces = {"application/json"})
     public List<PackageEntity> getPackagesByCategroy(
-        @RequestParam("category") Optional<PackageCategory> category, 
+        @RequestParam("category") Optional<Long> category,
         @RequestHeader(name = "Accept-Currency", required = false) String currency
     ) {   
         return packageService.getPackagesByCategory(category, currency);

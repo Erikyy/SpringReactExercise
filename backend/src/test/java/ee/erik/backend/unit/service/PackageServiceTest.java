@@ -11,7 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import ee.erik.backend.exception.PackageNotFoundException;
 import ee.erik.backend.model.PackageCategory;
 import ee.erik.backend.model.PackageEntity;
-import ee.erik.backend.model.PackageDescription;
+import ee.erik.backend.model.Description;
 import ee.erik.backend.model.PackageType;
 import ee.erik.backend.repository.PackageRepository;
 import ee.erik.backend.service.PackageService;
@@ -39,20 +39,24 @@ public class PackageServiceTest {
 
     private PackageEntity packageEntity;
 
+    private PackageCategory testPackageCategory;
+
     private String defaultLocale = "en";
     
     @BeforeEach
     public void setup() throws Exception {
         MockitoAnnotations.openMocks(this);
+        testPackageCategory = new PackageCategory();
+        testPackageCategory.setId(1L);
         packageEntity = new PackageEntity(
             PackageType.PREMIUM,
             5.99, 
-            PackageCategory.TV
+            testPackageCategory
         );
         packageEntity.setId(1L);
 
-        List<PackageDescription> descriptions = new ArrayList<PackageDescription>();
-        descriptions.add(new PackageDescription(defaultLocale, "Test"));
+        List<Description> descriptions = new ArrayList<Description>();
+        descriptions.add(new Description(defaultLocale, "Test"));
 
         packageEntity.setDescriptions(descriptions);
         
@@ -62,9 +66,9 @@ public class PackageServiceTest {
     @Test
     public void serviceShouldReturnPackagesWithAndWithoutCategory() {
         // with category
-        given(packageRepository.findPackagesByCategoryAndDescriptionLocale(PackageCategory.TV, defaultLocale)).willReturn(List.of(packageEntity));
+        given(packageRepository.findPackagesByCategoryAndDescriptionLocale(testPackageCategory.getId(), defaultLocale)).willReturn(List.of(packageEntity));
 
-        List<PackageEntity> packageEntities = packageService.getPackagesByCategory(Optional.of(PackageCategory.TV), null);
+        List<PackageEntity> packageEntities = packageService.getPackagesByCategory(Optional.of(testPackageCategory.getId()), null);
 
         assertThat(packageEntities).isNotEmpty();
         assertThat(packageEntities).contains(packageEntity);

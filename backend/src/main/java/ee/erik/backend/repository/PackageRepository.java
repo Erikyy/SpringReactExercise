@@ -16,20 +16,20 @@ public interface PackageRepository extends JpaRepository<PackageEntity, Long> {
      * Return all packages that also have assigned description with locale, if there is no description with the locale that query tries to fetch,
      * no packages will be returned, packages with empty descriptions should not be displayed
     */
-    @Query(value = "select p from PackageEntity p join fetch p.descriptions pd where p.category = :category and pd.locale = :locale")
-    List<PackageEntity> findPackagesByCategoryAndDescriptionLocale(@Param("category") PackageCategory category, @Param("locale") String locale);
+    @Query(value = "select p from PackageEntity p join fetch p.category pc join fetch p.descriptions pd where pc.id = :categoryId and pd.locale = :locale")
+    List<PackageEntity> findPackagesByCategoryAndDescriptionLocale(@Param("categoryId") Long categoryId, @Param("locale") String locale);
     
     /**
      * Return all packages that also have assigned description with locale, if there is no description with the locale that query tries to fetch,
      * no packages will be returned, packages with empty descriptions should not be displayed
     */
-    @Query(value = "select p from PackageEntity p join fetch p.descriptions pd where pd.locale = :locale")
+    @Query(value = "select p from PackageEntity p join fetch p.category join fetch p.descriptions pd where pd.locale = :locale")
     List<PackageEntity> findAllPackagesByDescriptionLocale(@Param("locale") String locale);
     
     /**
      * Return all packages that also have assigned description with locale, if there is no description with the locale that query tries to fetch,
      * no packages will be returned, packages with empty descriptions should not be displayed
     */
-    @Query(value = "select p from PackageEntity p join fetch p.descriptions pd where p.id = :id and pd.locale = :locale")
+    @Query(value = "select p from PackageEntity p join fetch p.category join fetch p.descriptions pd where p.id = :id and pd.locale = :locale")
     Optional<PackageEntity> findPackageByIdAndDescriptionLocale(@Param("id") Long id, @Param("locale") String locale);
 }

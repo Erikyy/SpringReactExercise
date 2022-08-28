@@ -14,34 +14,24 @@ import ee.erik.backend.model.PackageEntity;
 import ee.erik.backend.repository.PackageRepository;
 import ee.erik.backend.util.CurrencyConverter;
 
+import static ee.erik.backend.util.UtilFunctions.convertPrice;
+import static ee.erik.backend.util.UtilFunctions.getLocaleString;
+
 @Service
 public class PackageServiceImpl implements PackageService {
 
     @Autowired
     private PackageRepository packageRepository;
     
-    private String getLocaleString() {
-        String locale = LocaleContextHolder.getLocale().getLanguage(); 
-        if (locale == null || locale == "") {
-            return "en";
-        } else {
-            return locale;
-        }
-    }
 
-    /**
-     * Converts package price
-     */
-    private PackageEntity convertPrice(PackageEntity packageEntity, String currency) {
-        packageEntity.setPrice(CurrencyConverter.convertTo(packageEntity.getPrice(), currency));
-        return packageEntity;
-    }
+
+
 
     @Override
-    public List<PackageEntity> getPackagesByCategory(Optional<PackageCategory> category, String currency) {
+    public List<PackageEntity> getPackagesByCategory(Optional<Long> categoryId, String currency) {
         List<PackageEntity> packageEntities = new ArrayList<>();
-        if (category.isPresent()) {
-            packageEntities = packageRepository.findPackagesByCategoryAndDescriptionLocale(category.get(), getLocaleString());
+        if (categoryId.isPresent()) {
+            packageEntities = packageRepository.findPackagesByCategoryAndDescriptionLocale(categoryId.get(), getLocaleString());
         } else {
             packageEntities = packageRepository.findAllPackagesByDescriptionLocale(getLocaleString());
         }

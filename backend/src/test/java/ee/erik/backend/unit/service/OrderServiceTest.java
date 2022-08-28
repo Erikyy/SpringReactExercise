@@ -52,7 +52,7 @@ public class OrderServiceTest {
         MockitoAnnotations.openMocks(this);
 
         //here descriptions are not needed
-        testPackageEntity = new PackageEntity(PackageType.PREMIUM, 9.99, PackageCategory.TV);
+        testPackageEntity = new PackageEntity(PackageType.PREMIUM, 9.99, new PackageCategory());
         testPackageEntity.setId(1L);
         testOrder = new Order(OrderStatus.NEW, testPackageEntity);
         testOrder.setId(1L);

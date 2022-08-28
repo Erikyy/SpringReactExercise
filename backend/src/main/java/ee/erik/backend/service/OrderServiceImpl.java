@@ -3,6 +3,7 @@ package ee.erik.backend.service;
 import java.util.List;
 import java.util.Optional;
 
+import ee.erik.backend.util.UtilFunctions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,32 +29,31 @@ public class OrderServiceImpl implements OrderService {
     /**
      * Converts Orders package price
      */
-    private Order convertPrice(Order order, String currency) {
-        order.getPackageEntity().setPrice(CurrencyConverter.convertTo(order.getPackageEntity().getPrice(), currency));
-        return order;
-    }
+
     
     @Override
     public List<Order> getOrders(String currency) {
-        return orderRepository.findAll().stream().map(order -> convertPrice(order, currency)).toList();
+        return orderRepository.findAll().stream().peek(order -> UtilFunctions.convertPrice(order.getPackageEntity(), currency)).toList();
     }
 
     @Override
     public Order getOrder(Long id, String currency) {
         Optional<Order> order = orderRepository.findById(id);
-        if (!order.isPresent()) {
+        if (order.isEmpty()) {
             throw new OrderNotFoundException(id);
         }
-        return convertPrice(order.get(), currency);
+        UtilFunctions.convertPrice(order.get().getPackageEntity(), currency);
+        return order.get();
     }
 
     @Override
     public Order addNewOrder(CreateOrderDto orderDto, String currency) {
         Optional<PackageEntity> packageEntity = packageRepository.findById(orderDto.getPackageId());
-        if (!packageEntity.isPresent()) {
+        if (packageEntity.isEmpty()) {
             throw new PackageNotFoundException(orderDto.getPackageId());
         }
         Order order = orderRepository.save(new Order(OrderStatus.NEW, packageEntity.get()));
-        return convertPrice(order, currency);
+        UtilFunctions.convertPrice(order.getPackageEntity(), currency);
+        return order;
     }
 }

@@ -1,5 +1,8 @@
 package ee.erik.backend.integration;
 
+import ee.erik.backend.repository.PackageCategoryRepository;
+import ee.erik.backend.service.PackageCategoryService;
+import ee.erik.backend.util.UtilFunctions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -28,7 +31,7 @@ import java.util.Optional;
 import ee.erik.backend.dto.CreateOrderDto;
 import ee.erik.backend.model.Order;
 import ee.erik.backend.model.PackageCategory;
-import ee.erik.backend.model.PackageDescription;
+import ee.erik.backend.model.Description;
 import ee.erik.backend.model.PackageEntity;
 import ee.erik.backend.model.PackageType;
 import ee.erik.backend.repository.OrderRepository;
@@ -58,41 +61,61 @@ public class OrdersAndPackagesIntegrationTests {
     private PackageRepository packageRepository;
 
     @Autowired
-    private PackageDescriptionRepository packageDescriptionRepository;
+    private PackageCategoryRepository packageCategoryRepository;
 
+    @Autowired
+    private PackageDescriptionRepository packageDescriptionRepository;
+    @Autowired
+    private PackageCategoryService packageCategoryService;
     @Autowired
     private MockMvc mockMvc;
 
     @Test
     public void shouldCreatePackageAndOrderAndReflectChanges() throws Exception {
-        PackageEntity testPackageEntity = initPackageAndDescription(
+        PackageCategory testCategory = UtilFunctions.initCategory(
+                packageCategoryRepository,
+                packageDescriptionRepository,
+                new ArrayList<Description>(Arrays.asList(
+                    new Description("en", "TV Packages"),
+                    new Description("et", "TV Paketid")
+                )
+        ));
+
+        PackageEntity testPackageEntity = UtilFunctions.initPackageAndDescription(
+                packageRepository,
+            packageDescriptionRepository,
             PackageType.PREMIUM, 
             24.99, 
-            PackageCategory.TV, 
-            new ArrayList<PackageDescription>(Arrays.asList(
-                new PackageDescription("en", "Premium Package"),
-                new PackageDescription("et", "Preemium Pakett")
+            testCategory,
+            new ArrayList<Description>(Arrays.asList(
+                new Description("en", "Premium Package"),
+                new Description("et", "Preemium Pakett")
                 )
             ));
-        assertThat(packageRepository.findAll()).isNotEmpty();
 
+        assertThat(packageRepository.findAll()).isNotEmpty();
+        assertThat(packageCategoryRepository.findAll()).isNotEmpty();
+        assertThat(packageCategoryService.getAllCategories()).isNotEmpty();
         //assert that should return empty when querying packages with unsupported locale
         assertThat(packageRepository.findAllPackagesByDescriptionLocale("es")).isEmpty();
-        assertThat(packageRepository.findPackagesByCategoryAndDescriptionLocale(PackageCategory.TV, "es")).isEmpty();
-        //same with category
-        assertThat(packageRepository.findPackagesByCategoryAndDescriptionLocale(PackageCategory.OTHER, "en")).isEmpty();
+        assertThat(packageRepository.findPackagesByCategoryAndDescriptionLocale(testCategory.getId(), "es")).isEmpty();
+        //same with category that does not exist in database
+        assertThat(packageRepository.findPackagesByCategoryAndDescriptionLocale(6L, "en")).isEmpty();
         //usually PackageService takes care of that problem, by returning packages with descriptions using default locale
-        assertThat(packageService.getPackagesByCategory(Optional.of(PackageCategory.TV), null)).isNotEmpty();
+        assertThat(packageService.getPackagesByCategory(Optional.of(testCategory.getId()), null)).isNotEmpty();
 
-        MvcResult result =  mockMvc.perform(get("/v1/packages").param("category", "TV").contentType(MediaType.APPLICATION_JSON))
+        MvcResult result =  mockMvc.perform(get("/v1/packages").param("category", Long.toString(testCategory.getId())).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andReturn();
         
         
-        String response = result.getResponse().getContentAsString();
-        String expected = new ObjectMapper().writeValueAsString(packageRepository.findAllPackagesByDescriptionLocale("en"));
-        assertEquals(expected, response);
+        List<PackageEntity> response = Arrays.asList(new ObjectMapper().readValue(result.getResponse().getContentAsString(), PackageEntity[].class));
+        List<PackageEntity> expected = packageRepository.findPackagesByCategoryAndDescriptionLocale(testCategory.getId(), "en");
+        assertThat(expected).isNotEmpty();
+
+        //Only one package in test category
+        assertEquals(expected.get(0).getId(), response.get(0).getId());
 
         Optional<PackageEntity> actualPackageEntity = packageRepository.findById(testPackageEntity.getId());
 
@@ -123,15 +146,5 @@ public class OrdersAndPackagesIntegrationTests {
         assertEquals(orders, actual);
     }
     
-    private PackageEntity initPackageAndDescription(PackageType packageType, double price, PackageCategory category, List<PackageDescription> descriptions) {
-        PackageEntity savedPackage = packageRepository.save(new PackageEntity(packageType, price, category));
 
-        for (PackageDescription desc : descriptions) {
-            desc.setPackageEntity(savedPackage);
-            
-        }
-        packageDescriptionRepository.saveAll(descriptions);
-
-        return savedPackage;
-    }
 }

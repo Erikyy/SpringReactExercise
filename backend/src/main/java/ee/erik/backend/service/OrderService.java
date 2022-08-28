@@ -11,7 +11,7 @@ public interface OrderService {
      * 
      * @return orders
      */
-    public abstract List<Order> getOrders(String currency);
+    List<Order> getOrders(String currency);
 
     /**
      * Gets order by id
@@ -19,7 +19,7 @@ public interface OrderService {
      * @param id order id
      * @return order by id
      */
-    public abstract Order getOrder(Long id, String currency);
+    Order getOrder(Long id, String currency);
 
     /**
      * Adds new order with selected package,
@@ -28,5 +28,5 @@ public interface OrderService {
      * @param orderDto paramater packageId has to be set to existing package id 
      * @return new order
      */
-    public abstract Order addNewOrder(CreateOrderDto orderDto, String currency);
+    Order addNewOrder(CreateOrderDto orderDto, String currency);
 }
