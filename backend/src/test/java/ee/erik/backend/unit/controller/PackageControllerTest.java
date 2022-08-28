@@ -50,14 +50,14 @@ public class PackageControllerTest {
     public void controllerShouldReturnListOfPackagesWithAndWithoutCategory() throws Exception {
         given(packageService.getPackagesByCategory(Optional.of(PackageCategory.TV), null)).willReturn(List.of(packageEntity));
         
-        mockMvc.perform(get("/packages").param("category", "TV").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/v1/packages").param("category", "TV").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.[0]").value(packageEntity))
                 .andDo(print());
 
         given(packageService.getPackagesByCategory(Optional.empty(), null)).willReturn(List.of(packageEntity));
         
-        mockMvc.perform(get("/packages").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/v1/packages").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.[0]").value(packageEntity))
                 .andDo(print());
@@ -67,7 +67,7 @@ public class PackageControllerTest {
     public void controllerShouldReturnPackageById() throws Exception {
         given(packageService.getPackageById(1L, null)).willReturn(packageEntity);
 
-        mockMvc.perform(get("/packages/{id}", 1L).contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/v1/packages/{id}", 1L).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").value(packageEntity))
                 .andDo(print());

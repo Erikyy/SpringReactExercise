@@ -84,7 +84,7 @@ public class OrdersAndPackagesIntegrationTests {
         //usually PackageService takes care of that problem, by returning packages with descriptions using default locale
         assertThat(packageService.getPackagesByCategory(Optional.of(PackageCategory.TV), null)).isNotEmpty();
 
-        MvcResult result =  mockMvc.perform(get("/packages").param("category", "TV").contentType(MediaType.APPLICATION_JSON))
+        MvcResult result =  mockMvc.perform(get("/v1/packages").param("category", "TV").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andReturn();
@@ -101,7 +101,7 @@ public class OrdersAndPackagesIntegrationTests {
         assertEquals(actualPackageEntity.get().getId(), testPackageEntity.getId());
         
 
-        mockMvc.perform(post("/orders").contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(new CreateOrderDto(testPackageEntity.getId()))))
+        mockMvc.perform(post("/v1/orders").contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(new CreateOrderDto(testPackageEntity.getId()))))
                 .andExpect(status().isOk())
                 .andDo(print());
 
@@ -113,7 +113,7 @@ public class OrdersAndPackagesIntegrationTests {
         assertThat(orderService.getOrders(null)).isNotEmpty();
         assertThat(orderService.getOrders(null)).containsAll(orders);
 
-        MvcResult ordersResponse = mockMvc.perform(get("/orders").contentType(MediaType.APPLICATION_JSON))
+        MvcResult ordersResponse = mockMvc.perform(get("/v1/orders").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andReturn();

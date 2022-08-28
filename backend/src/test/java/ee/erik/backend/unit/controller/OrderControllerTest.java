@@ -49,7 +49,7 @@ public class OrderControllerTest {
     public void controllerShouldReturnOrders() throws Exception {
         given(orderService.getOrders(null)).willReturn(List.of(testOrder));
         
-        mockMvc.perform(get("/orders")
+        mockMvc.perform(get("/v1/orders")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.[0]").value(testOrder))
@@ -61,7 +61,7 @@ public class OrderControllerTest {
     public void controllerShouldReturnOrderById() throws Exception {
         given(orderService.getOrder(2L, null)).willReturn(testOrder);
 
-        mockMvc.perform(get("/orders/{id}", 2L).contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/v1/orders/{id}", 2L).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").value(testOrder))
                 .andDo(print());
@@ -71,7 +71,7 @@ public class OrderControllerTest {
     public void controllerShouldAddNewOrder() throws Exception {
         given(orderService.addNewOrder(new CreateOrderDto(1L), null)).willReturn(testOrder);
         
-        mockMvc.perform(post("/orders").contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(new CreateOrderDto(1L))))
+        mockMvc.perform(post("/v1/orders").contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(new CreateOrderDto(1L))))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").value(testOrder))
                 .andDo(print());
