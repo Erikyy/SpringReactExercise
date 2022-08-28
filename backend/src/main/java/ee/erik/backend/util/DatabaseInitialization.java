@@ -24,22 +24,34 @@ public class DatabaseInitialization {
     
     private final static Logger log = LoggerFactory.getLogger(DatabaseInitialization.class);
 
-    private PackageRepository packageRepository;
-    private PackageDescriptionRepository packageDescriptionRepository;
-    private PackageCategoryRepository packageCategoryRepository;
     @Bean
     CommandLineRunner initPackages(PackageRepository packageRepository, PackageDescriptionRepository packageDescriptionRepository, PackageCategoryRepository packageCategoryRepository) {
         return args -> {
-            this.packageDescriptionRepository = packageDescriptionRepository;
-            this.packageRepository = packageRepository;
-            this.packageCategoryRepository = packageCategoryRepository;
-            PackageCategory tvCategory = initCategory(
+            PackageCategory tvCategory = UtilFunctions.initCategory(
+                    packageCategoryRepository,
+                    packageDescriptionRepository,
+                    "tv",
                     new ArrayList<>(new ArrayList<Description>(Arrays.asList(
-                        new Description("en", "TV Package"),
-                        new Description("et", "TV Pakett")
+                        new Description("en", "TV Packages"),
+                        new Description("et", "TV Paketid")
                     ))));
+            /**
+             * Categories are flexible, more can be added plus changes also display on frontend side too
+             * Here for example is Mobile package category
 
-            log.info("Preloading new tv package: " + initPackageAndDescription(
+             PackageCategory tvCategory = UtilFunctions.initCategory(
+                    packageCategoryRepository,
+                    packageDescriptionRepository,
+                    "mobile",
+                    new ArrayList<>(new ArrayList<Description>(Arrays.asList(
+                    new Description("en", "Mobile Packages"),
+                    new Description("et", "Mobiil Paketid")
+             ))));
+             after that we can create packages for mobile category too
+            */
+            log.info("Preloading new tv package: " + UtilFunctions.initPackageAndDescription(
+                    packageRepository,
+                packageDescriptionRepository,
                 PackageType.MINI,
                 5.99, 
                 tvCategory,
@@ -49,7 +61,9 @@ public class DatabaseInitialization {
                 )
             )));
 
-            log.info("Preloading new tv package: " + initPackageAndDescription(
+            log.info("Preloading new tv package: " + UtilFunctions.initPackageAndDescription(
+                    packageRepository,
+                    packageDescriptionRepository,
                 PackageType.STANDARD, 
                 9.99, 
                 tvCategory,
@@ -59,7 +73,9 @@ public class DatabaseInitialization {
                 )
             )));
 
-            log.info("Preloading new tv package: " + initPackageAndDescription(
+            log.info("Preloading new tv package: " + UtilFunctions.initPackageAndDescription(
+                    packageRepository,
+                    packageDescriptionRepository,
                 PackageType.PREMIUM, 
                 24.99, 
                 tvCategory,
@@ -71,26 +87,5 @@ public class DatabaseInitialization {
         };
     }
 
-    private PackageEntity initPackageAndDescription(PackageType packageType, double price, PackageCategory category, List<Description> descriptions) {
-        PackageEntity savedPackage = packageRepository.save(new PackageEntity(packageType, price, category));
 
-        for (Description desc : descriptions) {
-            desc.setPackageEntity(savedPackage);
-            
-        }
-        packageDescriptionRepository.saveAll(descriptions);
-
-        return savedPackage;
-    }
-
-    private PackageCategory initCategory(List<Description> descriptions) {
-        PackageCategory packageCategory = packageCategoryRepository.save(new PackageCategory());
-
-        for (Description desc : descriptions) {
-            desc.setPackageCategory(packageCategory);
-        }
-        packageDescriptionRepository.saveAll(descriptions);
-
-        return packageCategory;
-    }
 }

@@ -13,7 +13,7 @@ export default class OrderService {
   }
 
   public static getOrderById(id: number, currency: string) {
-    return fetch(`${API_URL}/languages`, {
+    return fetch(`${API_URL}/orders/${id}`, {
       headers: {
         'Accept-Currency': currency,
       },

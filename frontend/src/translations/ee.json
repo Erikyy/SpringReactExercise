@@ -8,5 +8,6 @@
   "status": "Staatus",
   "package-type": "Paketi liik",
   "package-price": "Paketi hind",
-  "package-category": "Paketi kategooria"
+  "package-category": "Paketi kategooria",
+  "home": "Avaleht"
 }

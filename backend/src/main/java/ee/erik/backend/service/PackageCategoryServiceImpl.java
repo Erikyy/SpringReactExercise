@@ -2,6 +2,7 @@ package ee.erik.backend.service;
 
 import ee.erik.backend.model.PackageCategory;
 import ee.erik.backend.repository.PackageCategoryRepository;
+import ee.erik.backend.util.UtilFunctions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,6 @@ public class PackageCategoryServiceImpl implements PackageCategoryService {
 
     @Override
     public List<PackageCategory> getAllCategories() {
-        return packageCategoryRepository.findAllByLocale("en");
+        return packageCategoryRepository.findAllByLocale(UtilFunctions.getLocaleString());
     }
 }

@@ -75,6 +75,7 @@ public class OrdersAndPackagesIntegrationTests {
         PackageCategory testCategory = UtilFunctions.initCategory(
                 packageCategoryRepository,
                 packageDescriptionRepository,
+                "test",
                 new ArrayList<Description>(Arrays.asList(
                     new Description("en", "TV Packages"),
                     new Description("et", "TV Paketid")

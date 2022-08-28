@@ -11,7 +11,7 @@ import {
   Snackbar,
   Typography,
 } from '@mui/material';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import PackageService from '@app/service/PackageService';
 import type { Package } from '@app/types/Package';
 import PackageCard from '@app/common/PackageCard';
@@ -19,8 +19,9 @@ import { useAppSelector } from '@app/store/RootStore';
 import OrderService from '@app/service/OrderService';
 import { useTranslation } from 'react-i18next';
 import { T_NEW_ORDER_ADDED } from '@app/constants';
+import Loading from '@app/common/Loading';
 
-const HomePage: FC = () => {
+const PackagesPage: FC = () => {
   const { languages, currencies } = useAppSelector((state) => state);
   const [notificationOpen, setNotificationOpen] = useState(false);
   const { t } = useTranslation();
@@ -28,23 +29,23 @@ const HomePage: FC = () => {
     ['packages'],
     () => {
       return PackageService.getPackages(
-        'TV',
+        1,
         languages.activeLang,
         currencies.activeCurrency,
       );
     },
   );
 
+  const mutation = useMutation((id: number) => {
+    return OrderService.addNewOrder(id);
+  });
+
   useEffect(() => {
     refetch();
   }, [languages.activeLang, currencies.activeCurrency]);
 
   if (isLoading) {
-    return (
-      <Box>
-        <CircularProgress />
-      </Box>
-    );
+    return <Loading />;
   }
   if (error) {
     return <Typography>Error has occurred</Typography>;
@@ -66,14 +67,18 @@ const HomePage: FC = () => {
                 <PackageCard
                   data={pack}
                   onOrderMade={(id) => {
-                    OrderService.addNewOrder(id);
-                    setNotificationOpen(true);
+                    mutation.mutate(id, {
+                      onSuccess() {
+                        setNotificationOpen(true);
+                      },
+                    });
                   }}
                 />
               </Grid>
             );
           })}
       </Grid>
+
       <Snackbar
         open={notificationOpen}
         onClose={() => setNotificationOpen(false)}
@@ -95,4 +100,4 @@ const HomePage: FC = () => {
   );
 };
 
-export default HomePage;
+export default PackagesPage;

@@ -29,7 +29,15 @@ const PackageCard: FC<PackageCardProps> = ({ data, onOrderMade }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   return (
-    <Card style={{ minHeight: 300 }}>
+    <Card
+      sx={{
+        minHeight: 300,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        paddingBottom: 10,
+      }}
+    >
       <CardActionArea>
         <CardContent>
           <Typography align='center' fontSize={30}>
@@ -37,7 +45,7 @@ const PackageCard: FC<PackageCardProps> = ({ data, onOrderMade }) => {
               data.packageType.toString().substring(1).toLowerCase()}
           </Typography>
           <Typography align='center'>{data.descriptions[0].content}</Typography>
-          <Typography>
+          <Typography align='center'>
             {data.price} {getSymbolFromCurrency(activeCurrency)}
           </Typography>
         </CardContent>

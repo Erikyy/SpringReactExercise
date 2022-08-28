@@ -8,3 +8,4 @@ export const T_STATUS = 'status';
 export const T_PACKAGE_TYPE = 'package-type';
 export const T_PACKAGE_PRICE = 'package-price';
 export const T_PACKAGE_CATEGORY = 'package-category';
+export const T_HOME = 'home';

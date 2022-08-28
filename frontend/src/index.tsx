@@ -10,8 +10,6 @@ import { initReactI18next } from 'react-i18next';
 import translationsEN from './translations/en.json';
 import translationsEE from './translations/ee.json';
 import { Store } from './store/RootStore';
-import { ThemeProvider } from '@mui/material';
-import CssBaseline from '@mui/material/CssBaseline';
 
 i18next.use(initReactI18next).init({
   resources: {

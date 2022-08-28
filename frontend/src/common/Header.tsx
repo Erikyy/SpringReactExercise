@@ -13,10 +13,14 @@ import {
 import LanguageSelector from '@app/features/Language/LanguageSelector';
 import CurrencySelector from '@app/features/Currency/CurrencySelector';
 import { useTranslation } from 'react-i18next';
-import { T_ORDERS, T_TV_PACKAGES } from '@app/constants';
+import { T_HOME, T_ORDERS, T_TV_PACKAGES } from '@app/constants';
+import Categories from '@app/features/Category/Categories';
+import { useAppDispatch } from '@app/store/RootStore';
+import { setActiveCategory } from '@app/features/Category/CategorySlice';
 
 const Header: FC = () => {
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
   return (
     <AppBar
       variant='outlined'
@@ -27,9 +31,17 @@ const Header: FC = () => {
     >
       <Toolbar disableGutters>
         <Stack direction='row' spacing={2}>
-          <Link color='black' href='/' underline='hover'>
-            {t(T_TV_PACKAGES)}
+          <Link
+            onClick={() => {
+              dispatch(setActiveCategory(1));
+            }}
+            color='black'
+            href='/'
+            underline='hover'
+          >
+            {t(T_HOME)}
           </Link>
+          <Categories />
           <Link color='black' href='/orders' underline='hover'>
             {t(T_ORDERS)}
           </Link>

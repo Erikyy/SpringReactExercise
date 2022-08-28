@@ -8,5 +8,6 @@
   "status": "Status",
   "package-type": "Package Type",
   "package-price": "Package Price",
-  "package-category": "Package Category"
+  "package-category": "Package Category",
+  "home": "Home"
 }

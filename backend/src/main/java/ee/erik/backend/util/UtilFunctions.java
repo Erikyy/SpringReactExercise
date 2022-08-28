@@ -55,9 +55,10 @@ public class UtilFunctions {
     public static PackageCategory initCategory(
             PackageCategoryRepository packageCategoryRepository,
             PackageDescriptionRepository packageDescriptionRepository,
+            String name,
             List<Description> descriptions
     ) {
-        PackageCategory packageCategory = packageCategoryRepository.save(new PackageCategory());
+        PackageCategory packageCategory = packageCategoryRepository.save(new PackageCategory(name));
 
         for (Description desc : descriptions) {
             desc.setPackageCategory(packageCategory);

@@ -1,6 +1,13 @@
 import React, { useEffect } from 'react';
 import type { FC } from 'react';
-import { Container, Typography } from '@mui/material';
+import {
+  Box,
+  CircularProgress,
+  Container,
+  Icon,
+  IconButton,
+  Typography,
+} from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { useQuery } from '@tanstack/react-query';
 import type { Order } from '@app/types/Order';
@@ -9,25 +16,25 @@ import { useAppSelector } from '@app/store/RootStore';
 import getSymbolFromCurrency from 'currency-symbol-map';
 import { useTranslation } from 'react-i18next';
 import { T_PACKAGE_CATEGORY, T_PACKAGE_PRICE, T_STATUS } from '@app/constants';
+import Loading from '@app/common/Loading';
+import type { Description } from '@app/types/Description';
 
 const OrdersPage: FC = () => {
   const { t } = useTranslation();
-  const activeCurrency = useAppSelector(
-    (state) => state.currencies.activeCurrency,
-  );
+  const { languages, currencies } = useAppSelector((state) => state);
   const { isLoading, data, error, refetch } = useQuery<any>(
     ['orders'],
     async () => {
-      return await OrderService.getOrders(activeCurrency);
+      return await OrderService.getOrders(currencies.activeCurrency);
     },
   );
 
   useEffect(() => {
     refetch();
-  }, [activeCurrency]);
+  }, [currencies.activeCurrency]);
 
   if (isLoading) {
-    return null;
+    return <Loading />;
   }
 
   const cols: GridColDef[] = [
@@ -50,7 +57,7 @@ const OrdersPage: FC = () => {
         const item = data.find((item: Order) => item.id === id);
         console.log(item);
         return `${item.packageEntity.price} ${getSymbolFromCurrency(
-          activeCurrency,
+          currencies.activeCurrency,
         )}`;
       },
     },
@@ -60,13 +67,22 @@ const OrdersPage: FC = () => {
       width: 150,
       valueGetter({ id }) {
         const item = data.find((item: Order) => item.id === id);
+        //this is the other way to get correct translations
+        let content = item.packageEntity.category.descriptions.filter(
+          (desc: Description) => desc.locale === languages.activeLang,
+        );
         console.log(item);
-        return item.packageEntity.category;
+
+        return content[0].content;
       },
     },
   ];
   return (
     <Container sx={{ height: 500 }}>
+      <IconButton onClick={() => refetch()}>
+        <Icon fontSize='medium'>refresh</Icon>
+      </IconButton>
+
       <DataGrid
         rows={data}
         columns={cols}
