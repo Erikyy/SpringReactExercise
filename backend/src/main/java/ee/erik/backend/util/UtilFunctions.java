@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class UtilFunctions {
     //Gets locale string, if language is unsupported, will return 'en' by default
-    public static String getLocaleString() {
+    public static String getLanguageString() {
         String locale = LocaleContextHolder.getLocale().getLanguage();
         if (locale == null || locale == "") {
             return "en";

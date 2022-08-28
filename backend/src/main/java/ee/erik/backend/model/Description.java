@@ -2,7 +2,6 @@ package ee.erik.backend.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,7 +35,7 @@ public class Description {
     private Long id;
 
     @Schema(description = "Country code")
-    private String locale;
+    private String language;
 
     @Schema(description = "Description content")
     private String content;
@@ -49,8 +48,8 @@ public class Description {
     @ManyToOne
     private PackageCategory packageCategory;
 
-    public Description(String locale, String content) {
-        this.locale = locale;
+    public Description(String language, String content) {
+        this.language = language;
         this.content = content;
     }
 }

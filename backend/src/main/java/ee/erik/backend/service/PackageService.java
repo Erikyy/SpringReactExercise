@@ -14,7 +14,7 @@ public interface PackageService {
      * @param category Package category for instance: <pre>service.getPackagesByCategory(PackageCategory.TV)</pre>
      * @return List of packages
      */
-    List<PackageEntity> getPackagesByCategory(Optional<Long> category, String currency);
+    List<PackageEntity> getPackagesByCategory(Optional<String> category, String currency);
 
     /**
      * Returns a package with translated description. If Accept-Language header is not provided or language is not supported,

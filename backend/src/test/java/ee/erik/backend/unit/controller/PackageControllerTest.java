@@ -45,15 +45,16 @@ public class PackageControllerTest {
     public void setup() {
         packageCategory = new PackageCategory();
         packageCategory.setId(1L);
+        packageCategory.setName("test");
         packageEntity = new PackageEntity(PackageType.PREMIUM, 9.99, packageCategory);
         packageEntity.setId(1L);
     }
 
     @Test
     public void controllerShouldReturnListOfPackagesWithAndWithoutCategory() throws Exception {
-        given(packageService.getPackagesByCategory(Optional.of(packageCategory.getId()), null)).willReturn(List.of(packageEntity));
+        given(packageService.getPackagesByCategory(Optional.of(packageCategory.getName()), null)).willReturn(List.of(packageEntity));
         
-        mockMvc.perform(get("/v1/packages").param("category", Long.toString(packageCategory.getId())).contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/v1/packages").param("category", packageCategory.getName()).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.[0]").value(packageEntity))
                 .andDo(print());

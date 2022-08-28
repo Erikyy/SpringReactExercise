@@ -48,6 +48,7 @@ public class PackageServiceTest {
         MockitoAnnotations.openMocks(this);
         testPackageCategory = new PackageCategory();
         testPackageCategory.setId(1L);
+        testPackageCategory.setName("test");
         packageEntity = new PackageEntity(
             PackageType.PREMIUM,
             5.99, 
@@ -66,9 +67,9 @@ public class PackageServiceTest {
     @Test
     public void serviceShouldReturnPackagesWithAndWithoutCategory() {
         // with category
-        given(packageRepository.findPackagesByCategoryAndDescriptionLocale(testPackageCategory.getId(), defaultLocale)).willReturn(List.of(packageEntity));
+        given(packageRepository.findPackagesByCategoryAndDescriptionLocale(testPackageCategory.getName(), defaultLocale)).willReturn(List.of(packageEntity));
 
-        List<PackageEntity> packageEntities = packageService.getPackagesByCategory(Optional.of(testPackageCategory.getId()), null);
+        List<PackageEntity> packageEntities = packageService.getPackagesByCategory(Optional.of(testPackageCategory.getName()), null);
 
         assertThat(packageEntities).isNotEmpty();
         assertThat(packageEntities).contains(packageEntity);
@@ -80,6 +81,18 @@ public class PackageServiceTest {
         
         assertThat(noCategoryPackageEntities).isNotEmpty();
         assertThat(noCategoryPackageEntities).contains(packageEntity);
+
+
+    }
+
+    @Test
+    public void serviceShouldReturnAllPackagesWhenCategoryIsEmptyString() {
+        given(packageRepository.findAllPackagesByDescriptionLocale(defaultLocale)).willReturn(List.of(packageEntity));
+
+        List<PackageEntity> packageEntities = packageService.getPackagesByCategory(Optional.of(""), null);
+
+        assertThat(packageEntities).isNotEmpty();
+        assertThat(packageEntities).contains(packageEntity);
     }
 
     @Test

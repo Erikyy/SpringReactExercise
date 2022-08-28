@@ -5,17 +5,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import ee.erik.backend.exception.PackageNotFoundException;
-import ee.erik.backend.model.PackageCategory;
 import ee.erik.backend.model.PackageEntity;
 import ee.erik.backend.repository.PackageRepository;
-import ee.erik.backend.util.CurrencyConverter;
 
 import static ee.erik.backend.util.UtilFunctions.convertPrice;
-import static ee.erik.backend.util.UtilFunctions.getLocaleString;
+import static ee.erik.backend.util.UtilFunctions.getLanguageString;
 
 @Service
 public class PackageServiceImpl implements PackageService {
@@ -28,12 +25,12 @@ public class PackageServiceImpl implements PackageService {
 
 
     @Override
-    public List<PackageEntity> getPackagesByCategory(Optional<Long> categoryId, String currency) {
-        List<PackageEntity> packageEntities = new ArrayList<>();
-        if (categoryId.isPresent()) {
-            packageEntities = packageRepository.findPackagesByCategoryAndDescriptionLocale(categoryId.get(), getLocaleString());
+    public List<PackageEntity> getPackagesByCategory(Optional<String> category, String currency) {
+        List<PackageEntity> packageEntities;
+        if (category.isPresent() && !category.get().equals("")) {
+            packageEntities = packageRepository.findPackagesByCategoryAndDescriptionLocale(category.get(), getLanguageString());
         } else {
-            packageEntities = packageRepository.findAllPackagesByDescriptionLocale(getLocaleString());
+            packageEntities = packageRepository.findAllPackagesByDescriptionLocale(getLanguageString());
         }
 
         return packageEntities.stream().map(packageEntity -> convertPrice(packageEntity, currency)).toList();
@@ -41,7 +38,7 @@ public class PackageServiceImpl implements PackageService {
 
     @Override
     public PackageEntity getPackageById(Long id, String currency) {
-        Optional<PackageEntity> foundPackage = packageRepository.findPackageByIdAndDescriptionLocale(id, getLocaleString());
+        Optional<PackageEntity> foundPackage = packageRepository.findPackageByIdAndDescriptionLocale(id, getLanguageString());
         if (!foundPackage.isPresent()) {
             throw new PackageNotFoundException(id);
         }

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import ee.erik.backend.repository.PackageCategoryRepository;
+import ee.erik.backend.util.UtilFunctions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,13 +46,19 @@ public class PackageRepositoryTest {
     @BeforeEach
     public void setup() {
 
-        testPackageCategory = initCategory(new ArrayList<Description>(Arrays.asList(
-                new Description("en", "Premium Package"),
-                new Description("et", "Preemium Pakett")
-        )
+        testPackageCategory = UtilFunctions.initCategory(
+                packageCategoryRepository,
+                packageDescriptionRepository,
+                "test",
+                new ArrayList<Description>(Arrays.asList(
+                    new Description("en", "Premium Package"),
+                    new Description("et", "Preemium Pakett")
+                )
         ));
-        testPackageEntity = initPackageAndDescription(
-            PackageType.PREMIUM, 
+        testPackageEntity = UtilFunctions.initPackageAndDescription(
+                packageRepository,
+            packageDescriptionRepository,
+            PackageType.PREMIUM,
             24.99, 
             testPackageCategory,
             new ArrayList<Description>(Arrays.asList(
@@ -69,32 +76,9 @@ public class PackageRepositoryTest {
         packageRepository.deleteAll();
     }
 
-    private PackageCategory initCategory(List<Description> descriptions) {
-        PackageCategory packageCategory = packageCategoryRepository.save(new PackageCategory());
-
-        for (Description desc : descriptions) {
-            desc.setPackageCategory(packageCategory);
-        }
-        packageDescriptionRepository.saveAll(descriptions);
-
-        return packageCategory;
-    }
-
-    private PackageEntity initPackageAndDescription(PackageType packageType, double price, PackageCategory category, List<Description> descriptions) {
-        PackageEntity savedPackage = packageRepository.save(new PackageEntity(packageType, price, category));
-
-        for (Description desc : descriptions) {
-            desc.setPackageEntity(savedPackage);
-            
-        }
-        packageDescriptionRepository.saveAll(descriptions);
-
-        return savedPackage;
-    }
-
     @Test
     public void repositoryShouldReturnPackagesByCategoryAndLocale() {
-        List<PackageEntity> packageEntities = packageRepository.findPackagesByCategoryAndDescriptionLocale(testPackageCategory.getId(), "en");
+        List<PackageEntity> packageEntities = packageRepository.findPackagesByCategoryAndDescriptionLocale(testPackageCategory.getName(), "en");
 
         assertThat(packageEntities).isNotEmpty();
     }
@@ -118,12 +102,12 @@ public class PackageRepositoryTest {
     @Test
     public void repositoryShouldReturnNoPackagesWhenCategoryOrLocaleNotExists() {
 
-        List<PackageEntity> packageEntities = packageRepository.findPackagesByCategoryAndDescriptionLocale(5L, "en");
+        List<PackageEntity> packageEntities = packageRepository.findPackagesByCategoryAndDescriptionLocale("nonexistant_category", "en");
 
         assertThat(packageEntities).isEmpty();
 
         //set to language that packagedescriptions does not have
-        List<PackageEntity> emptyPackageEntities = packageRepository.findPackagesByCategoryAndDescriptionLocale(testPackageCategory.getId(), "es");
+        List<PackageEntity> emptyPackageEntities = packageRepository.findPackagesByCategoryAndDescriptionLocale(testPackageCategory.getName(), "es");
 
         assertThat(emptyPackageEntities).isEmpty();
     }

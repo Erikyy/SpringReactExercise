@@ -8,6 +8,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface PackageCategoryRepository extends JpaRepository<PackageCategory, Long> {
-    @Query(value = "select p from PackageCategory p join fetch p.descriptions pd where pd.locale = :locale")
-    List<PackageCategory> findAllByLocale(@Param("locale") String locale);
+    @Query(value = "select p from PackageCategory p join fetch p.descriptions pd where pd.language = :language")
+    List<PackageCategory> findAllByLanguage(@Param("language") String language);
 }

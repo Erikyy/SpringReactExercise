@@ -35,14 +35,7 @@ public class DatabaseInitialization {
                         new Description("en", "TV Packages"),
                         new Description("et", "TV Paketid")
                     ))));
-            PackageCategory mobile = UtilFunctions.initCategory(
-                    packageCategoryRepository,
-                    packageDescriptionRepository,
-                    "mobile",
-                    new ArrayList<>(new ArrayList<Description>(Arrays.asList(
-                            new Description("en", "Mobile Packages"),
-                            new Description("et", "Mobiil Paketid")
-                    ))));
+
             /**
              *
              * Categories are flexible, more can be added plus changes also display on frontend side too
@@ -57,6 +50,18 @@ public class DatabaseInitialization {
                     new Description("et", "Mobiil Paketid")
              ))));
              after that we can create packages for mobile category too
+
+             log.info("Preloading new mobile package: " + UtilFunctions.initPackageAndDescription(
+                    packageRepository,
+                    packageDescriptionRepository,
+                    PackageType.MINI,
+                    5.99,
+                    mobile,
+                    new ArrayList<Description>(Arrays.asList(
+                    new Description("en", "Mini mobile Package. Contains basic stuff. 20+ channels included."),
+                    new Description("et", "Mini mobiili Pakett. Sisaldab põhilise paketi asju. Sisaldab 20+ kanalit.")
+                )
+             )));
             */
             log.info("Preloading new tv package: " + UtilFunctions.initPackageAndDescription(
                     packageRepository,
@@ -66,7 +71,7 @@ public class DatabaseInitialization {
                 tvCategory,
                 new ArrayList<Description>(Arrays.asList(
                     new Description("en", "Mini tv Package. Contains basic stuff. 20+ channels included."),
-                    new Description("et", "Mini tv Pakett. Sisaldab põhilise paketti asju. Sisaldab 20+ kanalit.")
+                    new Description("et", "Mini tv Pakett. Sisaldab põhilise paketi asju. Sisaldab 20+ kanalit.")
                 )
             )));
 
@@ -78,7 +83,7 @@ public class DatabaseInitialization {
                 tvCategory,
                 new ArrayList<Description>(Arrays.asList(
                     new Description("en", "Standard tv Package. Contains basic stuff + some extra features. 40+ channels included."),
-                    new Description("et", "Standard tv Pakett. Sisaldab põhi paketti asju + veel mõnda ekstra tunnuseid. Sisaldab 40+ kanalit.")
+                    new Description("et", "Standard tv Pakett. Sisaldab põhi paketi asju + veel mõnda ekstra tunnuseid. Sisaldab 40+ kanalit.")
                 )
             )));
 
@@ -90,9 +95,8 @@ public class DatabaseInitialization {
                 tvCategory,
                 new ArrayList<Description>(Arrays.asList(
                     new Description("en", "Premium tv Package. Contains standard package stuff + some extra features. 100+ channels included."),
-                    new Description("et", "Preemium tv Pakett. Sisaldab standard paketti asju + veel mõnda ekstra tunnuseid. Sisaldab 100+ kanalit.")
-                    )
-                )));
+                    new Description("et", "Premium tv Pakett. Sisaldab standard paketi asju + ekstra tunnused. Sisaldab 100+ kanalit.")
+                    ))));
         };
     }
 

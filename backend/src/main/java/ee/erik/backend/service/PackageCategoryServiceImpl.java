@@ -19,6 +19,6 @@ public class PackageCategoryServiceImpl implements PackageCategoryService {
 
     @Override
     public List<PackageCategory> getAllCategories() {
-        return packageCategoryRepository.findAllByLocale(UtilFunctions.getLocaleString());
+        return packageCategoryRepository.findAllByLanguage(UtilFunctions.getLanguageString());
     }
 }

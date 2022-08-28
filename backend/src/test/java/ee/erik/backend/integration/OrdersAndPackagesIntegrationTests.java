@@ -99,21 +99,22 @@ public class OrdersAndPackagesIntegrationTests {
         assertThat(packageCategoryService.getAllCategories()).isNotEmpty();
         //assert that should return empty when querying packages with unsupported locale
         assertThat(packageRepository.findAllPackagesByDescriptionLocale("es")).isEmpty();
-        assertThat(packageRepository.findPackagesByCategoryAndDescriptionLocale(testCategory.getId(), "es")).isEmpty();
+        assertThat(packageRepository.findPackagesByCategoryAndDescriptionLocale(testCategory.getName(), "es")).isEmpty();
         //same with category that does not exist in database
-        assertThat(packageRepository.findPackagesByCategoryAndDescriptionLocale(6L, "en")).isEmpty();
+        assertThat(packageRepository.findPackagesByCategoryAndDescriptionLocale("nonexistant_category", "en")).isEmpty();
         //usually PackageService takes care of that problem, by returning packages with descriptions using default locale
-        assertThat(packageService.getPackagesByCategory(Optional.of(testCategory.getId()), null)).isNotEmpty();
+        assertThat(packageService.getPackagesByCategory(Optional.of(testCategory.getName()), null)).isNotEmpty();
 
-        MvcResult result =  mockMvc.perform(get("/v1/packages").param("category", Long.toString(testCategory.getId())).contentType(MediaType.APPLICATION_JSON))
+        MvcResult result =  mockMvc.perform(get("/v1/packages").param("category", testCategory.getName()).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andReturn();
         
         
         List<PackageEntity> response = Arrays.asList(new ObjectMapper().readValue(result.getResponse().getContentAsString(), PackageEntity[].class));
-        List<PackageEntity> expected = packageRepository.findPackagesByCategoryAndDescriptionLocale(testCategory.getId(), "en");
+        List<PackageEntity> expected = packageRepository.findPackagesByCategoryAndDescriptionLocale(testCategory.getName(), "en");
         assertThat(expected).isNotEmpty();
+        assertThat(response).isNotEmpty();
 
         //Only one package in test category
         assertEquals(expected.get(0).getId(), response.get(0).getId());
