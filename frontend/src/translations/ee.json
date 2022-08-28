@@ -1,0 +1,12 @@
+{
+  "make-order": "Telli pakett",
+  "orders": "Tellimused",
+  "tv-packages": "TV Paketid",
+  "currency": "Valuuta",
+  "language": "Keel",
+  "new-order-added": "Uus tellimus lisatud",
+  "status": "Staatus",
+  "package-type": "Paketi liik",
+  "package-price": "Paketi hind",
+  "package-category": "Paketi kategooria"
+}
