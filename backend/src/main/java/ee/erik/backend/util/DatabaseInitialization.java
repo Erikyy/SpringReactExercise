@@ -35,7 +35,16 @@ public class DatabaseInitialization {
                         new Description("en", "TV Packages"),
                         new Description("et", "TV Paketid")
                     ))));
+            PackageCategory mobile = UtilFunctions.initCategory(
+                    packageCategoryRepository,
+                    packageDescriptionRepository,
+                    "mobile",
+                    new ArrayList<>(new ArrayList<Description>(Arrays.asList(
+                            new Description("en", "Mobile Packages"),
+                            new Description("et", "Mobiil Paketid")
+                    ))));
             /**
+             *
              * Categories are flexible, more can be added plus changes also display on frontend side too
              * Here for example is Mobile package category
 

@@ -1,0 +1,16 @@
+version: "3.2"
+services:
+  backend:
+    build: './backend'
+    ports:
+      - '8080:8080'
+    volumes:
+      - ./:/backend
+  frontend:
+    build: './frontend'
+    depends_on:
+      - backend
+    ports:
+      - '3001:80'
+    volumes:
+      - ./:/frontend

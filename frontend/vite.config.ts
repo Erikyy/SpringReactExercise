@@ -1,15 +1,15 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import tsConfigPaths from 'vite-tsconfig-paths';
 
+const path = require('path');
 export default defineConfig({
   plugins: [
-    react({
-      include: '**/*.tsx',
-    }),
+    react(), tsConfigPaths()
   ],
   resolve: {
     alias: {
-      '@app': './src/',
+      '@app': path.resolve(__dirname, './src'),
     },
   },
 });
