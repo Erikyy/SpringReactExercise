@@ -37,8 +37,8 @@ public class DatabaseInitialization {
                 5.99, 
                 PackageCategory.TV, 
                 new ArrayList<PackageDescription>(Arrays.asList(
-                    new PackageDescription("en", "Mini Package"),
-                    new PackageDescription("et", "Mini Pakett")
+                    new PackageDescription("en", "Mini tv Package. Contains basic stuff. 20+ channels included."),
+                    new PackageDescription("et", "Mini tv Pakett. Sisaldab põhilise paketti asju. Sisaldab 20+ kanalit.")
                 )
             )));
 
@@ -47,18 +47,18 @@ public class DatabaseInitialization {
                 9.99, 
                 PackageCategory.TV, 
                 new ArrayList<PackageDescription>(Arrays.asList(
-                    new PackageDescription("en", "Standard Package"),
-                    new PackageDescription("et", "Standard Pakett")
+                    new PackageDescription("en", "Standard tv Package. Contains basic stuff + some extra features. 40+ channels included."),
+                    new PackageDescription("et", "Standard tv Pakett. Sisaldab põhi paketti asju + veel mõnda ekstra tunnuseid. Sisaldab 40+ kanalit.")
                 )
             )));
 
             log.info("Preloading new tv package: " + initPackageAndDescription(
                 PackageType.PREMIUM, 
                 24.99, 
-                PackageCategory.TV, 
+                PackageCategory.TV,
                 new ArrayList<PackageDescription>(Arrays.asList(
-                    new PackageDescription("en", "Premium Package"),
-                    new PackageDescription("et", "Preemium Pakett")
+                    new PackageDescription("en", "Premium tv Package. Contains standard package stuff + some extra features. 100+ channels included."),
+                    new PackageDescription("et", "Preemium tv Pakett. Sisaldab standard paketti asju + veel mõnda ekstra tunnuseid. Sisaldab 100+ kanalit.")
                     )
                 )));
         };

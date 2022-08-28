@@ -1,6 +1,5 @@
 package ee.erik.backend.integration;
 
-import org.hibernate.Hibernate;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 

@@ -25,7 +25,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("/v1/orders")
 @Tag(name = "Order", description = "Orders Api")
 public class OrderController {
     
@@ -46,6 +46,7 @@ public class OrderController {
     })
     @GetMapping(value = "/{id}", produces = {"application/json"})
     public Order getOrder(
+        
         @PathVariable Long id, 
         @RequestHeader(name = "Accept-Currency", required = false) String currency
     ) {
@@ -59,7 +60,8 @@ public class OrderController {
     })
     @PostMapping(consumes = { "application/json", "application/xml", "application/x-www-form-urlencoded" }, produces = {"application/json"})
     public Order addNewOrder(
-        @RequestBody CreateOrderDto orderDto, 
+        @RequestBody CreateOrderDto orderDto,
+        
         @RequestHeader(name = "Accept-Currency", required = false) String currency
     ) {
         return orderService.addNewOrder(orderDto, currency);

@@ -24,7 +24,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@RequestMapping("/packages")
+@RequestMapping("/v1/packages")
 @Tag(name = "Package", description = "Package Api")
 public class PackageController {
 

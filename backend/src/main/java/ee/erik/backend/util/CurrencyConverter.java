@@ -14,7 +14,7 @@ public class CurrencyConverter {
 
     public static String DEFAULT = "eur";
 
-    static Map<String, Double> rates = Map.ofEntries(
+    public static Map<String, Double> rates = Map.ofEntries(
         Map.entry("eur", 1.00),
         Map.entry("usd", 1.00),
         Map.entry("gbp", 0.84)
