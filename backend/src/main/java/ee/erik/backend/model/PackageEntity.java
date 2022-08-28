@@ -1,5 +1,6 @@
 package ee.erik.backend.model;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.*;
@@ -32,7 +33,7 @@ public class PackageEntity {
     private List<Description> descriptions;
 
     @Schema(description = "Package price, monthly subscription, default currency is in euros", example = "9.99")
-    private double price;
+    private BigDecimal price;
 
     @Schema(description = "Package category")
     @ManyToOne
@@ -51,7 +52,7 @@ public class PackageEntity {
      */
     public PackageEntity(PackageType packageType, double price, PackageCategory category) {
         this.packageType = packageType;
-        this.price = price;
+        this.price = new BigDecimal(price);
         this.category = category;
     }
 }

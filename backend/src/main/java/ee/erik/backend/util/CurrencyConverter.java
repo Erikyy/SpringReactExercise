@@ -1,5 +1,7 @@
 package ee.erik.backend.util;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Map;
 
 /**
@@ -27,9 +29,9 @@ public class CurrencyConverter {
      * @param currency eur, usd or gbp
      * @return converted value
      */
-    public static double convertTo(double value, String currency) {
+    public static BigDecimal convertTo(BigDecimal value, String currency) {
        
-        double rate = rates.get(currency == null || currency == "" || rates.get(currency) == null ? DEFAULT : currency);
-        return value * rate;
+        double rate = rates.get(currency == null || currency.equals("") || rates.get(currency) == null ? DEFAULT : currency);
+        return value.multiply(new BigDecimal(rate)).setScale(2, RoundingMode.HALF_EVEN);
     }
 }

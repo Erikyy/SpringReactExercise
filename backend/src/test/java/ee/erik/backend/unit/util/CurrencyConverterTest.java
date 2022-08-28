@@ -8,17 +8,19 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import ee.erik.backend.util.CurrencyConverter;
 
+import java.math.BigDecimal;
+
 @ExtendWith(MockitoExtension.class)
 public class CurrencyConverterTest {
     @Test
     public void converterShouldReturnDefaultValueWhenCurrencyNameIsRandomString() {
-        double valueInEuros = 1.00; 
+        BigDecimal valueInEuros = new BigDecimal(1.00);
         assertEquals(CurrencyConverter.convertTo(valueInEuros, "woeifhwfw"), valueInEuros);
     }
 
     @Test
     public void converterShouldReturnDefaultValueWhenCurrencyNameIsNull() {
-        double valueInEuros = 1.00;
+        BigDecimal valueInEuros = new BigDecimal(1.00);;
         assertEquals(CurrencyConverter.convertTo(valueInEuros, null), valueInEuros);
     }
 }
