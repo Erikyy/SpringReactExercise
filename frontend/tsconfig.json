@@ -9,7 +9,7 @@
     "paths": {
       "@app/*": ["./src/*"]
     },
-    "esModuleInterop": false,
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
@@ -20,6 +20,6 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src"],
+  "include": ["src", "jest/CompontentTestingUtils.tsx"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

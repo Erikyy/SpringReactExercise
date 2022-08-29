@@ -21,7 +21,7 @@ describe('CurrencySlice Unit tests', () => {
       );
   });
 
-  it('Should return initial state', () => {
+  test('Should return initial state', () => {
     const expectedState: CurrencyState = {
       activeCurrency: 'eur',
       currencies: [],
@@ -32,7 +32,7 @@ describe('CurrencySlice Unit tests', () => {
     );
   });
 
-  it('Should set activeCurrency in state', () => {
+  test('Should set activeCurrency in state', () => {
     const prevState: CurrencyState = {
       activeCurrency: 'eur',
       currencies: [],
@@ -49,7 +49,7 @@ describe('CurrencySlice Unit tests', () => {
     );
   });
 
-  it('Should fetch currencies and expect to be same as fakeFetchData and set loading to false', async () => {
+  test('Should fetch currencies and expect to be same as fakeFetchData and set loading to false', async () => {
     await testStore.dispatch(fetchCurrencies());
     const expectedState: CurrencyState = {
       activeCurrency: 'eur',

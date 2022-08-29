@@ -4,6 +4,7 @@
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
+  testPathIgnorePatterns: ['<rootDir>/dist'],
   moduleNameMapper: {
     '@app/(.*)': '<rootDir>/src/$1',
   },

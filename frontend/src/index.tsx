@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import App from './app/App';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter } from 'react-router-dom';
@@ -29,8 +29,11 @@ i18next.use(initReactI18next).init({
 });
 
 const client = new QueryClient();
+const rootElem = document.getElementById('root');
+if (!rootElem) throw new Error('Failed to find the root element');
 
-ReactDOM.render(
+const root = createRoot(rootElem);
+root.render(
   <React.StrictMode>
     <Provider store={Store}>
       <QueryClientProvider client={client}>
@@ -40,11 +43,4 @@ ReactDOM.render(
       </QueryClientProvider>
     </Provider>
   </React.StrictMode>,
-  document.getElementById('root'),
 );
-
-// Hot Module Replacement (HMR) - Remove this snippet to remove HMR.
-// Learn more: https://snowpack.dev/concepts/hot-module-replacement
-if (import.meta.hot) {
-  import.meta.hot.accept();
-}

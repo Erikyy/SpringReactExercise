@@ -14,12 +14,12 @@ import {
 import { useMutation, useQuery } from '@tanstack/react-query';
 import PackageService from '@app/service/PackageService';
 import type { Package } from '@app/types/Package';
-import PackageCard from '@app/common/PackageCard';
+import PackageCard from '@app/components/common/PackageCard';
 import { useAppSelector } from '@app/store/RootStore';
 import OrderService from '@app/service/OrderService';
 import { useTranslation } from 'react-i18next';
 import { T_NEW_ORDER_ADDED } from '@app/constants';
-import Loading from '@app/common/Loading';
+import Loading from '@app/components/common/Loading';
 import { useLocation } from 'react-router-dom';
 
 const PackagesPage: FC = () => {

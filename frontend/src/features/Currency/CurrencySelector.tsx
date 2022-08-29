@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import type { FC } from 'react';
-import Selector from '@app/common/Selector';
+import Selector from '@app/components/common/Selector';
 import { useAppDispatch, useAppSelector } from '@app/store/RootStore';
-import { setActiveCurrency } from './CurrencySlice';
+import { fetchCurrencies, setActiveCurrency } from './CurrencySlice';
 import { useTranslation } from 'react-i18next';
 import { T_CURRENCY } from '@app/constants';
 
@@ -12,13 +12,14 @@ const CurrencySelector: FC = () => {
   const { activeCurrency, currencies, loading } = useAppSelector(
     (state) => state.currencies,
   );
+
   if (loading) {
     return null;
   }
   return (
     <Selector
+      testId='currency-selector'
       id='currency-selector'
-      defaultValue='eur'
       data={currencies}
       label={T_CURRENCY}
       value={activeCurrency}

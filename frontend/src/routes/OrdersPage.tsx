@@ -21,7 +21,7 @@ import {
   T_PACKAGE_TYPE,
   T_STATUS,
 } from '@app/constants';
-import Loading from '@app/common/Loading';
+import Loading from '@app/components/common/Loading';
 import type { Description } from '@app/types/Description';
 
 const OrdersPage: FC = () => {

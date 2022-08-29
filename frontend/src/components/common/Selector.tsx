@@ -8,7 +8,7 @@ interface SelectorProps {
   label: string;
   data: string[];
   value: string;
-  defaultValue: string;
+  testId?: string;
   onChange: (val: string) => void;
 }
 
@@ -18,21 +18,18 @@ const Selector: FC<SelectorProps> = ({
   data,
   value,
   onChange,
-  defaultValue,
+  testId,
 }) => {
   const [open, setOpen] = useState(false);
-  const [values, setValues] = useState<string[]>([]);
+
   const { t } = useTranslation();
-  useEffect(() => {
-    setValues(data);
-  }, [data]);
-  if (values.length == 0) {
-    return null;
-  }
+
   return (
     <FormControl sx={{ minWidth: 80 }} size='small' variant='outlined'>
       <InputLabel id={`${id}-label`}>{t(label)}</InputLabel>
       <Select
+        native={true}
+        data-testid={testId}
         open={open}
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
@@ -42,14 +39,13 @@ const Selector: FC<SelectorProps> = ({
         labelId={`${id}-label`}
         id={`${id}`}
         value={value}
-        defaultValue={defaultValue}
         label={t(label)}
       >
-        {values.map((item, i) => {
+        {data.map((item, i) => {
           return (
-            <MenuItem key={`${id}-${item}-####`} value={item}>
+            <option key={`${id}-${item}-####`} value={item}>
               {item}
-            </MenuItem>
+            </option>
           );
         })}
       </Select>

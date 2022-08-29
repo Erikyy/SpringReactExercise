@@ -1,7 +1,7 @@
 import React from 'react';
 import type { FC } from 'react';
 import { FormControl, InputLabel } from '@mui/material';
-import Selector from '@app/common/Selector';
+import Selector from '@app/components/common/Selector';
 import { useAppDispatch, useAppSelector } from '@app/store/RootStore';
 import { setActiveLanguage } from './LanguageSlice';
 import { useTranslation } from 'react-i18next';
@@ -14,14 +14,14 @@ const LanguageSelector: FC = () => {
     (state) => state.languages,
   );
 
-  if (loading) {
+  if (loading || !languages) {
     return null;
   }
   return (
     <Selector
+      testId='language-selector'
       id='language-selector'
       data={languages}
-      defaultValue='en'
       label={T_LANGUAGE}
       value={activeLang}
       onChange={(val) => {

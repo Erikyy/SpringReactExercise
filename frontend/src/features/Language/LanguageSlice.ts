@@ -10,7 +10,7 @@ const initialState: LanguageState = {
 
 export const fetchLanguages = createAsyncThunk(
   'language/fetchLanguages',
-  async (thunkApi) => {
+  async () => {
     const data = await UtilsService.getLanguages();
     return data;
   },

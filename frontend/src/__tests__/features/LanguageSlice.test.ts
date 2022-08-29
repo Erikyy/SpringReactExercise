@@ -21,7 +21,7 @@ describe('LanguageSlice unit tests', () => {
       );
   });
 
-  it('Should return initial state', () => {
+  test('Should return initial state', () => {
     const expectedState: LanguageState = {
       activeLang: 'en',
       languages: [],
@@ -32,7 +32,7 @@ describe('LanguageSlice unit tests', () => {
     );
   });
 
-  it('Should set activeLanguage in state', () => {
+  test('Should set activeLanguage in state', () => {
     const prevState: LanguageState = {
       activeLang: 'en',
       languages: [],
@@ -48,7 +48,7 @@ describe('LanguageSlice unit tests', () => {
     );
   });
 
-  it('Should fetch languages and expect to be same as fakeFetchData and set loading to false', async () => {
+  test('Should fetch languages and expect to be same as fakeFetchData and set loading to false', async () => {
     const expectedState: LanguageState = {
       activeLang: 'en',
       languages: fakeFetchData,
