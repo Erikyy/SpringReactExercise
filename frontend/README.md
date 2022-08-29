@@ -1,5 +1,9 @@
 # Frontend
 
+## Requirements
+
+Node 16
+
 ## Setup
 
 `npm install`
