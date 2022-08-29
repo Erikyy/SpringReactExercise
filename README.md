@@ -1,5 +1,9 @@
 # Tv packages exercise app
 
+## Information
+
+Backend swagger docs are at: http://your_address:your_port/api/swagger-ui/index.html#/
+
 ## Requirements
 
 ### Backend
