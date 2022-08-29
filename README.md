@@ -56,5 +56,5 @@ Backend contains multiple unit tests and a single integration test.
 To run backend tests in terminal, type in `./gradlew.bat test -i`
 or `./gradlew test -i` on linux to run junit tests.
 
-Frontend only contains some basic unit tests for Redux slices.
+Frontend only contains some basic unit and component tests for Redux slices.
 To run tests in frontend, just type `npm run test`
