@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import ee.erik.backend.model.PackageEntity;
-import ee.erik.backend.model.PackageCategory;
 
 public interface PackageRepository extends JpaRepository<PackageEntity, Long> {
     

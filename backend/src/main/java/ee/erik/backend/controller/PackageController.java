@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ee.erik.backend.model.PackageEntity;
 import ee.erik.backend.model.ErrorResponse;
-import ee.erik.backend.model.PackageCategory;
 import ee.erik.backend.service.PackageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;

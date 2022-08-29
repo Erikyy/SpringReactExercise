@@ -15,7 +15,6 @@ import ee.erik.backend.model.OrderStatus;
 import ee.erik.backend.model.PackageEntity;
 import ee.erik.backend.repository.OrderRepository;
 import ee.erik.backend.repository.PackageRepository;
-import ee.erik.backend.util.CurrencyConverter;
 
 @Service
 public class OrderServiceImpl implements OrderService {

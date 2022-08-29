@@ -3,7 +3,6 @@ package ee.erik.backend.service;
 import java.util.List;
 import java.util.Optional;
 
-import ee.erik.backend.model.PackageCategory;
 import ee.erik.backend.model.PackageEntity;
 
 public interface PackageService {

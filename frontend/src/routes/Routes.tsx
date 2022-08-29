@@ -7,7 +7,7 @@ import type { PackageCategory } from '@app/types/PackageCategory';
 import { useQuery } from '@tanstack/react-query';
 import BasePage from '@app/common/BasePage';
 import { Route, Routes } from 'react-router-dom';
-import PackagesPage from './HomePage';
+import PackagesPage from './PackagesPage';
 import OrdersPage from './OrdersPage';
 
 const AppRoutes: FC = () => {

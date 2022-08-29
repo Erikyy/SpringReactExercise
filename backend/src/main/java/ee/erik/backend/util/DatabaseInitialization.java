@@ -5,7 +5,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import ee.erik.backend.model.PackageEntity;
 import ee.erik.backend.model.PackageCategory;
 import ee.erik.backend.model.Description;
 import ee.erik.backend.model.PackageType;
@@ -14,7 +13,6 @@ import ee.erik.backend.repository.PackageRepository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
