@@ -4,6 +4,11 @@
 
 Backend swagger docs are at: http://your_address:your_port/api/swagger-ui/index.html#/
 
+### Some useful features
+
+Package categories and types are separate entities, if this app had some kind of admin interface, user could just add new types and categories on demand,
+but currently all of these are initialized in [DatabaseInitialization class](./backend/src/main/java/ee/erik/backend/util/DatabaseInitialization.java).
+
 ## Requirements
 
 ### Backend
