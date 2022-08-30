@@ -11,6 +11,7 @@ export default class OrderService {
     }).then((res) => res.json());
   }
 
+  //unused
   public static getOrderById(id: number, currency: string): Promise<Order> {
     return fetch(`${API_URL}/orders/${id}`, {
       headers: {

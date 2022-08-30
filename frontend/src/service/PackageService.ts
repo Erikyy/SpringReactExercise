@@ -14,6 +14,7 @@ export default class PackageService {
     }).then((res) => res.json());
   }
 
+  //unused
   public static getpackageById(id: number, language: string, currency: string) {
     return fetch(`${API_URL}/packages/${id}`, {
       headers: {
