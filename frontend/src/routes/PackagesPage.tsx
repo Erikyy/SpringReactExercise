@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import type { FC } from 'react';
 import {
-  Box,
-  CircularProgress,
   Container,
   Grid,
   Icon,
   IconButton,
-  Paper,
   Snackbar,
   Typography,
 } from '@mui/material';

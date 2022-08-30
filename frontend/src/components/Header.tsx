@@ -1,15 +1,6 @@
 import React from 'react';
 import type { FC } from 'react';
-import {
-  AppBar,
-  Box,
-  Container,
-  Link,
-  Menu,
-  Stack,
-  Toolbar,
-  Typography,
-} from '@mui/material';
+import { AppBar, Link, Stack, Toolbar } from '@mui/material';
 import LanguageSelector from '@app/features/Language/LanguageSelector';
 import CurrencySelector from '@app/features/Currency/CurrencySelector';
 import { useTranslation } from 'react-i18next';

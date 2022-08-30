@@ -1,7 +1,6 @@
 import React from 'react';
 import type { FC } from 'react';
 import {
-  Box,
   Button,
   Card,
   CardActionArea,

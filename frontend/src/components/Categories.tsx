@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import type { FC } from 'react';
-import { Link, Stack } from '@mui/material';
+import { Link } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import type { PackageCategory } from '@app/types/PackageCategory';
 import PackageCategoryService from '@app/service/PackageCategoryService';

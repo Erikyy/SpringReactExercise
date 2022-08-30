@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import type { FC } from 'react';
 import Selector from '@app/components/common/Selector';
 import { useAppDispatch, useAppSelector } from '@app/store/RootStore';
-import { fetchCurrencies, setActiveCurrency } from './CurrencySlice';
-import { useTranslation } from 'react-i18next';
+import { setActiveCurrency } from './CurrencySlice';
 import { T_CURRENCY } from '@app/constants';
 
 const CurrencySelector: FC = () => {

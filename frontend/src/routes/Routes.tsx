@@ -5,7 +5,7 @@ import PackageCategoryService from '@app/service/PackageCategoryService';
 import { useAppSelector } from '@app/store/RootStore';
 import type { PackageCategory } from '@app/types/PackageCategory';
 import { useQuery } from '@tanstack/react-query';
-import BasePage from '@app/components/common/BasePage';
+import BasePage from '@app/components/BasePage';
 import { Route, Routes } from 'react-router-dom';
 import PackagesPage from './PackagesPage';
 import OrdersPage from './OrdersPage';

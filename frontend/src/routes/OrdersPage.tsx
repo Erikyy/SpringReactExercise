@@ -1,13 +1,6 @@
 import React, { useEffect } from 'react';
 import type { FC } from 'react';
-import {
-  Box,
-  CircularProgress,
-  Container,
-  Icon,
-  IconButton,
-  Typography,
-} from '@mui/material';
+import { Container, Icon, IconButton } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { useQuery } from '@tanstack/react-query';
 import type { Order } from '@app/types/Order';

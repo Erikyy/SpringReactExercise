@@ -1,11 +1,12 @@
 import { API_URL } from '@app/constants';
+import { Package } from '@app/types/Package';
 
 export default class PackageService {
   public static getPackages(
     category: string,
     language: string,
     currency: string,
-  ) {
+  ): Promise<Package[]> {
     return fetch(`${API_URL}/packages?category=${category}`, {
       headers: {
         'Accept-Language': language,
@@ -15,7 +16,11 @@ export default class PackageService {
   }
 
   //unused
-  public static getpackageById(id: number, language: string, currency: string) {
+  public static getpackageById(
+    id: number,
+    language: string,
+    currency: string,
+  ): Promise<Package> {
     return fetch(`${API_URL}/packages/${id}`, {
       headers: {
         'Accept-Language': language,

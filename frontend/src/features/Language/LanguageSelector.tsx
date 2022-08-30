@@ -1,6 +1,5 @@
 import React from 'react';
 import type { FC } from 'react';
-import { FormControl, InputLabel } from '@mui/material';
 import Selector from '@app/components/common/Selector';
 import { useAppDispatch, useAppSelector } from '@app/store/RootStore';
 import { setActiveLanguage } from './LanguageSlice';
