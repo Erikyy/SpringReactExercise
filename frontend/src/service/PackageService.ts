@@ -1,4 +1,4 @@
-import { API_URL } from '@app/types/Api';
+import { API_URL } from '@app/constants';
 
 export default class PackageService {
   public static getPackages(

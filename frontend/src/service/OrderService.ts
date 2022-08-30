@@ -1,18 +1,17 @@
-import { API_URL } from '@app/types/Api';
-import type { Order } from '@app/types/Order';
+import { API_URL } from '@app/constants';
 import type { CreateOrderDto } from '@app/types/CreateOrderDto';
+import { Order } from '@app/types/Order';
 
 export default class OrderService {
-  public static getOrders(currency: string) {
-    const data = fetch(`${API_URL}/orders`, {
+  public static getOrders(currency: string): Promise<Order[]> {
+    return fetch(`${API_URL}/orders`, {
       headers: {
         'Accept-Currency': currency,
       },
     }).then((res) => res.json());
-    return data;
   }
 
-  public static getOrderById(id: number, currency: string) {
+  public static getOrderById(id: number, currency: string): Promise<Order> {
     return fetch(`${API_URL}/orders/${id}`, {
       headers: {
         'Accept-Currency': currency,
@@ -20,7 +19,7 @@ export default class OrderService {
     }).then((res) => res.json());
   }
 
-  public static addNewOrder(packageId: number) {
+  public static addNewOrder(packageId: number): Promise<Order> {
     const postData: CreateOrderDto = {
       packageId,
     };

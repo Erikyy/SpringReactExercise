@@ -50,7 +50,7 @@ const OrdersPage: FC = () => {
       headerName: t(T_PACKAGE_TYPE),
       width: 150,
       valueGetter(params) {
-        return params.value.packageType;
+        return params.value.packageType.name;
       },
     },
     {

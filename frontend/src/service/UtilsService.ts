@@ -1,4 +1,4 @@
-import { API_URL } from '@app/types/Api';
+import { API_URL } from '@app/constants';
 
 /**
  * Utils service for fetching supported languages and currencies
