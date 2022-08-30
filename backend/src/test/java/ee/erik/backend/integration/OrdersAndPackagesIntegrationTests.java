@@ -1,6 +1,6 @@
 package ee.erik.backend.integration;
 
-import ee.erik.backend.repository.PackageCategoryRepository;
+import ee.erik.backend.repository.*;
 import ee.erik.backend.service.PackageCategoryService;
 import ee.erik.backend.util.UtilFunctions;
 import org.junit.jupiter.api.Test;
@@ -34,9 +34,6 @@ import ee.erik.backend.model.PackageCategory;
 import ee.erik.backend.model.Description;
 import ee.erik.backend.model.PackageEntity;
 import ee.erik.backend.model.PackageType;
-import ee.erik.backend.repository.OrderRepository;
-import ee.erik.backend.repository.PackageDescriptionRepository;
-import ee.erik.backend.repository.PackageRepository;
 import ee.erik.backend.service.OrderService;
 import ee.erik.backend.service.PackageService;
 
@@ -64,6 +61,8 @@ public class OrdersAndPackagesIntegrationTests {
     private PackageCategoryRepository packageCategoryRepository;
 
     @Autowired
+    private PackageTypeRepository packageTypeRepository;
+    @Autowired
     private PackageDescriptionRepository packageDescriptionRepository;
     @Autowired
     private PackageCategoryService packageCategoryService;
@@ -82,10 +81,12 @@ public class OrdersAndPackagesIntegrationTests {
                 )
         ));
 
+        PackageType testType = new PackageType("Test");
+        packageTypeRepository.save(testType);
         PackageEntity testPackageEntity = UtilFunctions.initPackageAndDescription(
                 packageRepository,
             packageDescriptionRepository,
-            PackageType.PREMIUM, 
+            testType,
             24.99, 
             testCategory,
             new ArrayList<Description>(Arrays.asList(

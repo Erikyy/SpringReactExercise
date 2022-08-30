@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import ee.erik.backend.repository.PackageCategoryRepository;
+import ee.erik.backend.repository.PackageTypeRepository;
 import ee.erik.backend.util.UtilFunctions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,6 +38,10 @@ public class PackageRepositoryTest {
     @Autowired
     private PackageCategoryRepository packageCategoryRepository;
 
+    //only used for initializing test type
+    @Autowired
+    private PackageTypeRepository packageTypeRepository;
+
     //needed for saving package descriptions
     @Autowired
     private PackageDescriptionRepository packageDescriptionRepository;
@@ -45,7 +50,8 @@ public class PackageRepositoryTest {
     private PackageCategory testPackageCategory;
     @BeforeEach
     public void setup() {
-
+        PackageType packageType = new PackageType("Test");
+        packageTypeRepository.save(packageType);
         testPackageCategory = UtilFunctions.initCategory(
                 packageCategoryRepository,
                 packageDescriptionRepository,
@@ -58,7 +64,7 @@ public class PackageRepositoryTest {
         testPackageEntity = UtilFunctions.initPackageAndDescription(
                 packageRepository,
             packageDescriptionRepository,
-            PackageType.PREMIUM,
+            packageType,
             24.99, 
             testPackageCategory,
             new ArrayList<Description>(Arrays.asList(

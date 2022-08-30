@@ -39,8 +39,7 @@ const PackageCard: FC<PackageCardProps> = ({ data, onOrderMade }) => {
       <CardActionArea>
         <CardContent>
           <Typography align='center' fontSize={30}>
-            {data.packageType.toString().charAt(0) +
-              data.packageType.toString().substring(1).toLowerCase()}
+            {data.packageType.name}
           </Typography>
           <Typography align='center'>{data.descriptions[0].content}</Typography>
           <Typography align='center'>

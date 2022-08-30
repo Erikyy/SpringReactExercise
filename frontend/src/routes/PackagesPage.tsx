@@ -14,7 +14,7 @@ import {
 import { useMutation, useQuery } from '@tanstack/react-query';
 import PackageService from '@app/service/PackageService';
 import type { Package } from '@app/types/Package';
-import PackageCard from '@app/components/common/PackageCard';
+import PackageCard from '@app/components/PackageCard';
 import { useAppSelector } from '@app/store/RootStore';
 import OrderService from '@app/service/OrderService';
 import { useTranslation } from 'react-i18next';

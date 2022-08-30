@@ -1,7 +1,4 @@
-
-
-export enum PackageType { 
-    MINI,
-    STANDARD,
-    PREMIUM
-}
+export type PackageType = {
+  id: number;
+  name: string;
+};

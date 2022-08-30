@@ -49,8 +49,9 @@ public class PackageServiceTest {
         testPackageCategory = new PackageCategory();
         testPackageCategory.setId(1L);
         testPackageCategory.setName("test");
+        PackageType testType = new PackageType("Test");
         packageEntity = new PackageEntity(
-            PackageType.PREMIUM,
+            testType,
             5.99, 
             testPackageCategory
         );

@@ -50,9 +50,9 @@ public class OrderServiceTest {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
-
+        PackageType testType = new PackageType("Test");
         //here descriptions are not needed
-        testPackageEntity = new PackageEntity(PackageType.PREMIUM, 9.99, new PackageCategory());
+        testPackageEntity = new PackageEntity(testType, 9.99, new PackageCategory());
         testPackageEntity.setId(1L);
         testOrder = new Order(OrderStatus.NEW, testPackageEntity);
         testOrder.setId(1L);

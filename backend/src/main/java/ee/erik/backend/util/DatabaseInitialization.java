@@ -1,6 +1,7 @@
 package ee.erik.backend.util;
 
 import ee.erik.backend.repository.PackageCategoryRepository;
+import ee.erik.backend.repository.PackageTypeRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +14,7 @@ import ee.erik.backend.repository.PackageRepository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,8 +25,14 @@ public class DatabaseInitialization {
     private final static Logger log = LoggerFactory.getLogger(DatabaseInitialization.class);
 
     @Bean
-    CommandLineRunner initPackages(PackageRepository packageRepository, PackageDescriptionRepository packageDescriptionRepository, PackageCategoryRepository packageCategoryRepository) {
+    CommandLineRunner initPackages(PackageRepository packageRepository, PackageTypeRepository packageTypeRepository, PackageDescriptionRepository packageDescriptionRepository, PackageCategoryRepository packageCategoryRepository) {
         return args -> {
+            PackageType mini = new PackageType("Mini");
+            PackageType standard = new PackageType("Standard");
+            PackageType premium = new PackageType("Premium");
+
+            packageTypeRepository.saveAll(List.of(mini, standard, premium));
+
             PackageCategory tvCategory = UtilFunctions.initCategory(
                     packageCategoryRepository,
                     packageDescriptionRepository,
@@ -36,9 +44,12 @@ public class DatabaseInitialization {
 
             /**
              *
-             * Categories are flexible, more can be added plus changes also display on frontend side too
+             *
+             *
+             * Categories and packageTypes are flexible, more can be added plus changes also display on frontend side too
              * Here for example is Mobile package category
-
+             PackageType basic = new PackageType("Basic");
+             packageTypeRepository.save(basic);
              PackageCategory tvCategory = UtilFunctions.initCategory(
                     packageCategoryRepository,
                     packageDescriptionRepository,
@@ -52,7 +63,7 @@ public class DatabaseInitialization {
              log.info("Preloading new mobile package: " + UtilFunctions.initPackageAndDescription(
                     packageRepository,
                     packageDescriptionRepository,
-                    PackageType.MINI,
+                    mini,
                     5.99,
                     mobile,
                     new ArrayList<Description>(Arrays.asList(
@@ -64,7 +75,7 @@ public class DatabaseInitialization {
             log.info("Preloading new tv package: " + UtilFunctions.initPackageAndDescription(
                     packageRepository,
                 packageDescriptionRepository,
-                PackageType.MINI,
+                mini,
                 5.99, 
                 tvCategory,
                 new ArrayList<Description>(Arrays.asList(
@@ -76,7 +87,7 @@ public class DatabaseInitialization {
             log.info("Preloading new tv package: " + UtilFunctions.initPackageAndDescription(
                     packageRepository,
                     packageDescriptionRepository,
-                PackageType.STANDARD, 
+                standard,
                 9.99, 
                 tvCategory,
                 new ArrayList<Description>(Arrays.asList(
@@ -88,7 +99,7 @@ public class DatabaseInitialization {
             log.info("Preloading new tv package: " + UtilFunctions.initPackageAndDescription(
                     packageRepository,
                     packageDescriptionRepository,
-                PackageType.PREMIUM, 
+                premium,
                 24.99, 
                 tvCategory,
                 new ArrayList<Description>(Arrays.asList(

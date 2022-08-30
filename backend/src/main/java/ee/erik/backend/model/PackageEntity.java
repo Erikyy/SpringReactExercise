@@ -26,7 +26,7 @@ public class PackageEntity {
     @Column(name = "package_id")
     private Long id;
 
-    @Enumerated(EnumType.STRING)
+    @ManyToOne
     private PackageType packageType;
 
     @OneToMany(mappedBy = "packageEntity", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)

@@ -46,7 +46,9 @@ public class PackageControllerTest {
         packageCategory = new PackageCategory();
         packageCategory.setId(1L);
         packageCategory.setName("test");
-        packageEntity = new PackageEntity(PackageType.PREMIUM, 9.99, packageCategory);
+        PackageType packageType = new PackageType("Test");
+        packageType.setId(1L);
+        packageEntity = new PackageEntity(packageType, 9.99, packageCategory);
         packageEntity.setId(1L);
     }
 
