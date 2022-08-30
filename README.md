@@ -17,7 +17,7 @@ Java 18
 
 ### Frontend
 
-Node 16
+Node Lts
 
 Npm
 
@@ -25,7 +25,8 @@ Npm
 
 ### Backend
 
-Gradle will do setup automatically.
+Gradle will do setup automatically. If intellij is used,
+otherwise run `./gradlew.bat build` on windows or `./gradlew build` on linux.
 
 ### Frontend
 
